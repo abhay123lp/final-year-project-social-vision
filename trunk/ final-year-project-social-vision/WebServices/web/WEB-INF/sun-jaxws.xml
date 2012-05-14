@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
+  <endpoint implementation="com.webservices.PythonScriptsWebServices" name="PythonScriptsWebServices" url-pattern="/PythonScriptsWebServices"/>
+  <endpoint implementation="com.data.webservices.DBTopsyWebServices" name="DBTopsyWebServices" url-pattern="/DBTopsyWebServices"/>
+  <endpoint implementation="com.data.webservices.DBFinancialWebServices" name="DBFinancialWebServices" url-pattern="/DBFinancialWebServices"/>
+  <endpoint implementation="com.data.webservices.DBMachineLearningWebServices" name="DBMachineLearningWebServices" url-pattern="/DBMachineLearningWebServices"/>
+  <endpoint implementation="com.webservices.DataAnalysisWebServices" name="DataAnalysisWebServices" url-pattern="/DataAnalysisWebServices"/>
+  <endpoint implementation="com.data.webservices.DBTwitterWebServices" name="DBTwitterWebServices" url-pattern="/DBTwitterWebServices"/>
+  <endpoint implementation="com.data.webservices.DBPythonScriptsWebServices" name="DBPythonScriptsWebServices" url-pattern="/DBPythonScriptsWebServices"/>
+</endpoints>
