@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:valueObjects="valueObjects.*"
+			   xmlns:dbpythonscriptswebservices="services.dbpythonscriptswebservices.*"
+			   width="1307" height="1326" minWidth="955" minHeight="600"
+			   creationComplete="initApp()">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable] public var scriptStatus:String = "Stopped";
+			[Bindable] public var scriptProgress:String = "Stopped";
+			[Bindable] public var scriptName:String = "NLTKCompanySentimentClassifier";
+			[Bindable] public var classNameOne:String = "Positive";
+			[Bindable] public var classNameTwo:String = "Negative";
+			
+			private var timer:Timer;
+			
+			protected function initApp():void 
+			{
+				startPollingScriptStatus();
+			}
+			
+			public function stopApp():void 
+			{
+				timer.stop();
+			}
+			
+			protected function form_creationCompleteHandler(event:FlexEvent):void
+			{
+				getAllAdvanceClassifiersScriptInputsResult.token = dBPythonScriptsWebServices.getAllAdvanceClassifiersScriptInputs(scriptName);
+			}
+			
+			
+			protected function button_clickHandler(event:MouseEvent):void
+			{
+				use_film_tweetsTextInput.text.toString();
+				use_technology_tweetsTextInput.text.toString();
+				num_of_film_training_tweetsTextInput.text.toString();
+				num_of_film_test_tweetsTextInput.text.toString();
+				num_of_tech_training_tweetsTextInput.text.toString();
+				num_of_tech_test_tweetsTextInput.text.toString();
+				remove_short_wordsTextInput.text.toString();
+				remove_stop_wordsTextInput.text.toString();
+				remove_low_info_wordsTextInput.text.toString();
+				num_of_inf_wordsTextInput.text.toString();
+				use_bigramsTextInput.text.toString();
+				num_of_most_intersting_features_to_showTextInput.text.toString();
+				
+				updateAdvanceClassifierScriptInputs(scriptName,
+					use_film_tweetsTextInput.text.toString(),
+					use_technology_tweetsTextInput.text.toString(),
+					num_of_film_training_tweetsTextInput.text.toString(),
+					num_of_film_test_tweetsTextInput.text.toString(),
+					num_of_tech_training_tweetsTextInput.text.toString(),
+					num_of_tech_test_tweetsTextInput.text.toString(),
+					remove_short_wordsTextInput.text.toString(),
+					remove_stop_wordsTextInput.text.toString(),
+					remove_low_info_wordsTextInput.text.toString(),
+					num_of_inf_wordsTextInput.text.toString(),
+					use_bigramsTextInput.text.toString(),
+					num_of_most_intersting_features_to_showTextInput.text.toString());
+			}
+			
+
+			protected function updateAdvanceClassifierScriptInputs(script_name:String, use_film_tweets:String, use_technology_tweets:String, num_of_film_training_tweets:String, num_of_film_test_tweets:String, num_of_tech_training_tweets:String, num_of_tech_test_tweets:String, remove_short_words:String, remove_stop_words:String, remove_low_info_words:String, num_of_inf_words:String, use_bigrams:String, num_of_most_intersting_features_to_show:String):void
+			{
+				updateAdvanceClassifierScriptInputsResult.token = dBPythonScriptsWebServices.updateAdvanceClassifierScriptInputs(script_name, use_film_tweets, use_technology_tweets, num_of_film_training_tweets, num_of_film_test_tweets, num_of_tech_training_tweets, num_of_tech_test_tweets, remove_short_words, remove_stop_words, remove_low_info_words, num_of_inf_words, use_bigrams, num_of_most_intersting_features_to_show);
+			}
+			
+			
+			protected function form2_creationCompleteHandler(event:FlexEvent):void
+			{
+				getAllClassifiersScriptOutputsResult.token = dBPythonScriptsWebServices.getAllClassifiersScriptOutputs(scriptName);
+			}
+			
+			protected function buttonTrainAlgoritm_clickHandler(event:MouseEvent):void
+			{
+				startNLTKTrainClassifier(scriptName)
+			}
+			
+			private function pollScriptStatus(evt:TimerEvent):void
+			{
+				getPythonScriptStatus(scriptName);
+			}
+			
+			
+			private function startPollingScriptStatus():void {
+				timer = new Timer(200);
+				timer.addEventListener(TimerEvent.TIMER, pollScriptStatus);
+				timer.start();
+			}
+			
+			private function resetOutputValues():void
+			{
+				accuracyLabel.text = "-";
+				one_precisionLabel.text = "-";
+				one_recallLabel.text = "-";
+				two_precisionLabel.text = "-";
+				two_recallLabel.text = "-";
+				most_informative_featuresLabel.text = "Training the NLTK naive bayes classifier"
+			}
+					
+			protected function getPythonScriptStatus(script_name:String):void
+			{
+				getPythonScriptStatusResult.token = dBPythonScriptsWebServices.getPythonScriptStatus(script_name);
+			}
+			
+			
+			protected function getPythonScriptStatusResult_resultHandler(event:ResultEvent):void
+			{
+				scriptStatus = getPythonScriptStatusResult.lastResult.status;
+				scriptProgress = getPythonScriptStatusResult.lastResult.progress;
+				
+				if(scriptStatus == "Stopped")
+				{
+					getAllClassifiersScriptOutputsResult.token = dBPythonScriptsWebServices.getAllClassifiersScriptOutputs(scriptName);
+				}
+				else
+				{
+					resetOutputValues();
+				}
+			}
+			
+			
+			protected function startNLTKTrainClassifier(script_name:String):void
+			{
+				startNLTKTrainClassifierResult.token = dBPythonScriptsWebServices.startNLTKTrainClassifier(script_name);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<valueObjects:AdvanceClassifierScriptInputs id="advanceClassifierScriptInputs"/>
+		<dbpythonscriptswebservices:DBPythonScriptsWebServices id="dBPythonScriptsWebServices"
+															   fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+															   />
+		<s:CallResponder id="getAllAdvanceClassifiersScriptInputsResult"
+						 result="advanceClassifierScriptInputs = getAllAdvanceClassifiersScriptInputsResult.lastResult as AdvanceClassifierScriptInputs"/>
+		<s:CallResponder id="updateAdvanceClassifierScriptInputsResult"/>
+		<valueObjects:ClassifierScriptOutputs id="classifierScriptOutputs"/>
+		<s:CallResponder id="getAllClassifiersScriptOutputsResult"
+						 result="classifierScriptOutputs = getAllClassifiersScriptOutputsResult.lastResult as ClassifierScriptOutputs"/>
+		<s:CallResponder id="getPythonScriptStatusResult" result="getPythonScriptStatusResult_resultHandler(event)"/>
+		<s:CallResponder id="startNLTKTrainClassifierResult"/>
+		
+	</fx:Declarations>
+	<s:Form id="form2" x="848" y="105" width="311" height="234"
+			creationComplete="form2_creationCompleteHandler(event)">
+		<s:FormItem label="Accuracy" fontSize="17">
+			<s:Label id="accuracyLabel" text="{classifierScriptOutputs.accuracy}"/>
+		</s:FormItem>
+		<s:FormItem label="{classNameOne} precision" fontSize="17">
+			<s:Label id="one_precisionLabel" text="{classifierScriptOutputs.one_precision}"/>
+		</s:FormItem>
+		<s:FormItem label="{classNameOne} recall" fontSize="17">
+			<s:Label id="one_recallLabel" text="{classifierScriptOutputs.one_recall}"/>
+		</s:FormItem>
+		<s:FormItem label="{classNameTwo} precision" fontSize="17">
+			<s:Label id="two_precisionLabel" text="{classifierScriptOutputs.two_precision}"/>
+		</s:FormItem>
+		<s:FormItem label="{classNameTwo} recall" fontSize="17">
+			<s:Label id="two_recallLabel" text="{classifierScriptOutputs.two_recall}"/>
+		</s:FormItem>
+	</s:Form>
+	<s:FormItem x="416" y="91" label="Most Informative Features">
+	</s:FormItem>
+	<s:TextArea id="most_informative_featuresLabel" x="429" y="118" width="415" height="348"
+			 text="{classifierScriptOutputs.most_informative_features}"/>
+	<s:Button x="878" y="360" width="285" height="106" label="Train Algorithm" fontSize="18"
+			  fontWeight="bold" click="buttonTrainAlgoritm_clickHandler(event)"/>
+	<s:Label id="titleLabelScriptStatus" x="429" y="491" width="246" height="23" fontSize="24"
+			 fontWeight="bold" text="Script Status"/>
+	<s:Label id="labelStatus" x="429" y="522" width="772" height="47" fontSize="20" text="{scriptStatus}"/>
+	<s:Label id="titleLabelScriptProgress" x="429" y="558" width="246" height="23" fontSize="24"
+			 fontWeight="bold" text="Script Progress"/>
+	<s:Label id="labelProgress" x="429" y="589" width="772" height="47" fontSize="20" text="{scriptProgress}"/>
+	<s:Label id="inputparametersTitleLabel" x="15" y="63" width="458" height="37" fontSize="30"
+			 text="NLTK Settings "/>
+	<s:Label id="inputparametersTitleLabel0" x="418" y="64" width="458" height="37" fontSize="30"
+			 text="Script Output "/>
+	<s:Label x="10" y="10" width="977" height="55" fontSize="36" fontWeight="bold"
+			 text="{scriptName}"/>
+	<s:Form id="form" x="17" y="97" width="402" height="634"
+			creationComplete="form_creationCompleteHandler(event)" defaultButton="{button}">
+		<s:FormItem label="Use film tweets">
+			<s:TextInput id="use_film_tweetsTextInput"
+						 text="{advanceClassifierScriptInputs.use_film_tweets}"/>
+		</s:FormItem>
+		<s:FormItem label="Use technology tweets">
+			<s:TextInput id="use_technology_tweetsTextInput"
+						 text="{advanceClassifierScriptInputs.use_technology_tweets}"/>
+		</s:FormItem>
+		<s:FormItem label="Num of film training tweets">
+			<s:TextInput id="num_of_film_training_tweetsTextInput"
+						 text="{advanceClassifierScriptInputs.num_of_film_training_tweets}"/>
+		</s:FormItem>
+		<s:FormItem label="Num of film test tweets">
+			<s:TextInput id="num_of_film_test_tweetsTextInput"
+						 text="{advanceClassifierScriptInputs.num_of_film_test_tweets}"/>
+		</s:FormItem>
+		<s:FormItem label="Num of tech training tweets">
+			<s:TextInput id="num_of_tech_training_tweetsTextInput"
+						 text="{advanceClassifierScriptInputs.num_of_tech_training_tweets}"/>
+		</s:FormItem>
+		<s:FormItem label="Num of tech test tweets">
+			<s:TextInput id="num_of_tech_test_tweetsTextInput"
+						 text="{advanceClassifierScriptInputs.num_of_tech_test_tweets}"/>
+		</s:FormItem>
+		<s:FormItem label="Remove short words">
+			<s:TextInput id="remove_short_wordsTextInput"
+						 text="{advanceClassifierScriptInputs.remove_short_words}"/>
+		</s:FormItem>
+		<s:FormItem label="Remove stop words">
+			<s:TextInput id="remove_stop_wordsTextInput"
+						 text="{advanceClassifierScriptInputs.remove_stop_words}"/>
+		</s:FormItem>
+		<s:FormItem label="Remove low info words">
+			<s:TextInput id="remove_low_info_wordsTextInput"
+						 text="{advanceClassifierScriptInputs.remove_low_info_words}"/>
+		</s:FormItem>
+		<s:FormItem label="Num of inf words">
+			<s:TextInput id="num_of_inf_wordsTextInput"
+						 text="{advanceClassifierScriptInputs.num_of_inf_words}"/>
+		</s:FormItem>
+		<s:FormItem label="Use bigrams">
+			<s:TextInput id="use_bigramsTextInput" text="{advanceClassifierScriptInputs.use_bigrams}"/>
+		</s:FormItem>
+		<s:FormItem label="Num of most intersting features to show">
+			<s:TextInput id="num_of_most_intersting_features_to_showTextInput"
+						 text="{advanceClassifierScriptInputs.num_of_most_intersting_features_to_show}"/>
+		</s:FormItem>
+		<s:Button id="button" label="Update" click="button_clickHandler(event)"/>
+	</s:Form>
+</s:Group>

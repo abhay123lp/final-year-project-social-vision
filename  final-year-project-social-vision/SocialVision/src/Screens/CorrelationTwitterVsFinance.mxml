@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:dataanalysiswebservices="services.dataanalysiswebservices.*"
+			   width="1307" height="1326" >
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			protected function button_clickHandler(event:MouseEvent):void
+			{
+				calculateCorrelationTwitterVsFinanceResult.token = dataAnalysisWebServices.calculateCorrelationTwitterVsFinance(queryTextInput.text,twitter_fieldTextInput.text,finacial_fieldTextInput.text,from_date_stringTextInput.text,to_date_stringTextInput.text,parseInt(day_deltaTextInput.text),moving_average_typeTextInput.text,parseInt(moving_average_window_sizeTextInput.text),parseFloat(moving_average_alphaTextInput.text),correlation_typeTextInput.text,parseInt(moving_correlation_window_sizeTextInput.text),time_intervalTextInput.text);
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="HistoricalState"/>
+		<s:State name="RealTimeState"/>
+	</s:states>
+	<fx:Declarations>
+		<dataanalysiswebservices:DataAnalysisWebServices id="dataAnalysisWebServices"
+														 fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+														 showBusyCursor="true"/>
+		<s:CallResponder id="calculateCorrelationTwitterVsFinanceResult"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Form defaultButton="{button}"
+			x.HistoricalState="11" y.HistoricalState="88">
+		<s:FormItem label="Query"
+					label.HistoricalState="Company Name">
+			<s:TextInput id="queryTextInput" text="Intel"/>
+		</s:FormItem>
+		<s:FormItem label="Twitter_field"
+					label.HistoricalState="Twitter DB Field">
+			<s:TextInput id="twitter_fieldTextInput" text="no_tweets_collected"/>
+		</s:FormItem>
+		<s:FormItem label="Finacial_field"
+					label.HistoricalState="Finacial DB Field">
+			<s:TextInput id="finacial_fieldTextInput" text="price"/>
+		</s:FormItem>
+		<s:FormItem label="From_date_string"
+					label.HistoricalState="From Date">
+			<s:TextInput id="from_date_stringTextInput" text="2012-04-05"/>
+		</s:FormItem>
+		<s:FormItem label="To_date_string"
+					label.HistoricalState="To Date">
+			<s:TextInput id="to_date_stringTextInput" text="2012-05-01"/>
+		</s:FormItem>
+		<s:FormItem label="Day_delta"
+					label.HistoricalState="Day Delta">
+			<s:TextInput id="day_deltaTextInput" text="0"/>
+		</s:FormItem>
+		<s:FormItem label="Moving_average_type"
+					label.HistoricalState="Moving Average Type">
+			<s:TextInput id="moving_average_typeTextInput" text="SMA"/>
+		</s:FormItem>
+		<s:FormItem label="Moving_average_window_size"
+					label.HistoricalState="Moving Avg Window Size">
+			<s:TextInput id="moving_average_window_sizeTextInput" text="1"/>
+		</s:FormItem>
+		<s:FormItem label="Moving_average_alpha"
+					label.HistoricalState="Moving Avg Alpha"> 
+			<s:TextInput id="moving_average_alphaTextInput" text="0.1"/>
+		</s:FormItem>
+		<s:FormItem label="Correlation_type"
+					label.HistoricalState="Correlation Type">
+			<s:TextInput id="correlation_typeTextInput" text="Linear"/>
+		</s:FormItem>
+		<s:FormItem label="Moving_correlation_window_size"
+					label.HistoricalState="Moving Correlation Window Size">
+			<s:TextInput id="moving_correlation_window_sizeTextInput" text="30"/>
+		</s:FormItem>
+		<s:FormItem label="Time_interval"
+					label.HistoricalState="Time Interval">
+			<s:TextInput id="time_intervalTextInput" text="hour" />
+		</s:FormItem>
+		<s:Button id="button" label="CalculateCorrelationTwitterVsFinance"
+				  click="button_clickHandler(event)"
+				  label.HistoricalState="Calculate Correlation"/>
+	</s:Form>
+	<mx:LineChart id="Finance" x="415" y="0" width="761" height="271"
+				  dataProvider="{calculateCorrelationTwitterVsFinanceResult.lastResult.correlationXYItems}"
+				  showDataTips="true"
+				  x.HistoricalState="426" y.HistoricalState="88">
+		<mx:series>
+			<mx:LineSeries id="lineSeries" displayName="Finance" xField="x_date" yField="y_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1189" y="0" dataProvider="{Finance}"
+			   x.HistoricalState="1200" y.HistoricalState="88"/>
+	<mx:LineChart id="Twitter" x="405" y="279" width="771" height="312"
+				  dataProvider="{calculateCorrelationTwitterVsFinanceResult.lastResult.correlationXYItems}"
+				  showDataTips="true"
+				  x.HistoricalState="416" y.HistoricalState="367">
+		<mx:series>
+			<mx:LineSeries id="lineSeries2" displayName="TwitterValue" xField="x_date" yField="x_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1188" y="277" dataProvider="{Twitter}"
+			   x.HistoricalState="1199" y.HistoricalState="365"/>
+	<mx:LineChart id="Correlation" x="405" y="599" width="771"
+				  dataProvider="{calculateCorrelationTwitterVsFinanceResult.lastResult.correlationXYItems}"
+				  showDataTips="true"
+				  x.HistoricalState="416" y.HistoricalState="687">
+		<mx:series>
+			<mx:LineSeries id="lineSeries3" displayName="Correlation" xField="x_date" yField="correlation_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1184" y="599" dataProvider="{Correlation}"
+			   x.HistoricalState="1195" y.HistoricalState="687"/>
+	<s:Label x="44" y="747" width="296" height="21" fontFamily="Times New Roman" fontSize="28"
+			 fontWeight="bold" text="Spearman Correlation" textAlign="center"
+			 x.HistoricalState="55" y.HistoricalState="835"/>
+	<s:Label x="53" y="829" width="296" height="21" fontFamily="Times New Roman" fontSize="28"
+			 fontWeight="bold" text="Kendell Correlation" textAlign="center"
+			 x.HistoricalState="64" y.HistoricalState="917"/>
+	<s:Label x="71" y="667" width="263" height="21" fontFamily="Times New Roman" fontSize="28"
+			 fontWeight="bold" text="Linear Correlation&#xd;" textAlign="center"
+			 x.HistoricalState="82" y.HistoricalState="755"/>
+	<s:Label id="label2" x="29" y="694" width="329" height="25" fontFamily="Times New Roman"
+			 fontSize="28" fontWeight="normal"
+			 text="{calculateCorrelationTwitterVsFinanceResult.lastResult.linearCorrelationCoeff}"
+			 textAlign="center"
+			 x.HistoricalState="40" y.HistoricalState="782"/>
+	<s:Label id="label3" x="29" y="772" width="329" fontFamily="Times New Roman" fontSize="28"
+			 text="{calculateCorrelationTwitterVsFinanceResult.lastResult.spearmanCorrelationCoeff}"
+			 textAlign="center"
+			 x.HistoricalState="40" y.HistoricalState="860"/>
+	<s:Label id="label0" x="29" y="854" width="320" fontFamily="Times New Roman" fontSize="28"
+			 text="{calculateCorrelationTwitterVsFinanceResult.lastResult.kendelCorrelationCoeff}"
+			 textAlign="center"
+			 x.HistoricalState="40" y.HistoricalState="942"/>
+</s:Group>

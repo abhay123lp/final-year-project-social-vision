@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:dataanalysiswebservices="services.dataanalysiswebservices.*"
+			   xmlns:dbtopsywebservices="services.dbtopsywebservices.*"
+			   xmlns:dbtwitterwebservices="services.dbtwitterwebservices.*"
+			   width="1263" height="1258" minWidth="955" minHeight="600">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			protected function button_clickHandler(event:MouseEvent):void
+			{
+				calculateCorrelationFinanceVsFinanceResult.token = dataAnalysisWebServices.calculateCorrelationFinanceVsFinance(company_one_nameTextInput.text,company_two_nameTextInput.text,company_one_fieldTextInput.text,company_two_fieldTextInput.text,from_date_stringTextInput.text,to_date_stringTextInput.text,intervalTextInput.text,moving_average_typeTextInput.text,parseInt(moving_average_window_sizeTextInput.text),parseFloat(moving_average_alphaTextInput.text),correlation_typeTextInput.text,parseInt(moving_correlation_window_sizeTextInput.text));
+			}
+			
+			
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				getSpecificTwitterProcessedDataResult.token = dBTwitterWebServices.getSpecificTwitterProcessedData(queryTextInput.text,twitter_fieldTextInput.text,from_date_stringTextInput2.text,to_date_stringTextInput2.text,time_periodTextInput.text);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<dataanalysiswebservices:DataAnalysisWebServices id="dataAnalysisWebServices"
+														 fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+														 showBusyCursor="true"/>
+		<s:CallResponder id="calculateCorrelationFinanceVsFinanceResult"/>
+		<dbtopsywebservices:DBTopsyWebServices id="dBTopsyWebServices"
+											   fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+											   showBusyCursor="true"/>
+		<s:CallResponder id="getSpecificProcessedDataResult"/>
+		
+		<dbtwitterwebservices:DBTwitterWebServices id="dBTwitterWebServices"
+												   fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+												   showBusyCursor="true"/>
+		
+		<s:CallResponder id="getSpecificTwitterProcessedDataResult"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Form x="-4" y="150" defaultButton="{button}">
+		<s:FormItem label="1st Company">
+			<s:TextInput id="company_one_nameTextInput"  text="Intel" />
+		</s:FormItem>
+		<s:FormItem label="2nd Company">
+			<s:TextInput id="company_two_nameTextInput" text="Google"/>
+		</s:FormItem>
+		<s:FormItem label="1st Finance DB Field">
+			<s:TextInput id="company_one_fieldTextInput" text="close"/>
+		</s:FormItem>
+		<s:FormItem label="2nd Finance DB Field">
+			<s:TextInput id="company_two_fieldTextInput" text="close"/>
+		</s:FormItem>
+		<s:FormItem label="From Date">
+			<s:TextInput id="from_date_stringTextInput" text="2011-01-01"/>
+		</s:FormItem>
+		<s:FormItem label="To Date">
+			<s:TextInput id="to_date_stringTextInput" text="2012-01-01"/>
+		</s:FormItem>
+		<s:FormItem label="Interval">
+			<s:TextInput id="intervalTextInput" text="day"/>
+		</s:FormItem>
+		<s:FormItem label="Moving Average Type">
+			<s:TextInput id="moving_average_typeTextInput" text="SMA"/>
+		</s:FormItem>
+		<s:FormItem label="Moving Avg Window Size">
+			<s:TextInput id="moving_average_window_sizeTextInput" text="10"/>
+		</s:FormItem>
+		<s:FormItem label="Moving Avg Alpha">
+			<s:TextInput id="moving_average_alphaTextInput" text="0.1"/>
+		</s:FormItem>
+		<s:FormItem label="Correlation Type">
+			<s:TextInput id="correlation_typeTextInput" text="Linear"/>
+		</s:FormItem>
+		<s:FormItem label="Moving Correlation Window Size">
+			<s:TextInput id="moving_correlation_window_sizeTextInput" text="10"/>
+		</s:FormItem>
+		<s:Button id="button" label="Calculate Correlation"
+				  click="button_clickHandler(event)"/>
+	</s:Form>
+	<mx:LineChart id="CompanyOne" x="401" y="150" width="758" height="176"
+				  dataProvider="{calculateCorrelationFinanceVsFinanceResult.lastResult.correlationXYItems}"
+				  showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries" displayName="CompanyOne" xField="x_date" yField="x_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1167" y="150" dataProvider="{CompanyOne}"/>
+	<mx:LineChart id="CompanyTwo" x="401" y="334" width="758" height="176"
+				  dataProvider="{calculateCorrelationFinanceVsFinanceResult.lastResult.correlationXYItems}"
+				  showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries3" displayName="CompanyTwo" xField="y_date" yField="y_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1163" y="334" dataProvider="{CompanyTwo}"/>
+	<mx:LineChart id="Correlation" x="403" y="518" width="758" height="192"
+				  dataProvider="{calculateCorrelationFinanceVsFinanceResult.lastResult.correlationXYItems}"
+				  showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries4" displayName="Correlation" xField="y_date" yField="correlation_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1169" y="518" dataProvider="{Correlation}"/>
+	<mx:LineChart id="TopsySocial" x="401" y="732" width="760" height="222"
+				  dataProvider="{getSpecificTwitterProcessedDataResult.lastResult}" showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries5" displayName="TwitterSocialData" xField="_date" yField="twitter_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1169" y="732" dataProvider="{TopsySocial}"/>
+	<s:Label x="645" y="1002" width="296" height="21" fontFamily="Times New Roman" fontSize="28"
+			 fontWeight="bold" text="Spearman Correlation" textAlign="center"/>
+	<s:Label x="949" y="1000" width="296" height="21" fontFamily="Times New Roman" fontSize="28"
+			 fontWeight="bold" text="Kendell Correlation" textAlign="center"/>
+	<s:Label x="400" y="1001" width="263" height="21" fontFamily="Times New Roman" fontSize="28"
+			 fontWeight="bold" text="Linear Correlation&#xd;"/>
+	<s:Label id="label2" x="400" y="1028" width="211" height="25" fontFamily="Times New Roman"
+			 fontSize="28" fontWeight="normal"
+			 text="{calculateCorrelationFinanceVsFinanceResult.lastResult.linearCorrelationCoeff}"
+			 textAlign="center"/>
+	<s:Label id="label3" x="664" y="1027" width="264" fontFamily="Times New Roman" fontSize="28"
+			 text="{calculateCorrelationFinanceVsFinanceResult.lastResult.spearmanCorrelationCoeff}"
+			 textAlign="center"/>
+	<s:Label id="label0" x="958" y="1025" width="264" fontFamily="Times New Roman" fontSize="28"
+			 text="{calculateCorrelationFinanceVsFinanceResult.lastResult.spearmanCorrelationCoeff}"
+			 textAlign="center"/>
+	<s:Form x="6" y="787" width="386" defaultButton="{button2}">
+		<s:FormItem label="Company Name">
+			<s:TextInput id="queryTextInput" text="Intel"/>
+		</s:FormItem>
+		<s:FormItem label="Twitter DB Field">
+			<s:TextInput id="twitter_fieldTextInput" text="no_tweets_collected"/>
+		</s:FormItem>
+		<s:FormItem label="From Date ">
+			<s:TextInput id="from_date_stringTextInput2" text="2012-04-01"/>
+		</s:FormItem>
+		<s:FormItem label="To Date">
+			<s:TextInput id="to_date_stringTextInput2" text="2012-05-01"/>
+		</s:FormItem>
+		<s:FormItem label="Time Period">
+			<s:TextInput id="time_periodTextInput" text="hour"/>
+		</s:FormItem>
+		<s:Button id="button2" label="Get Social Data"
+				  click="button2_clickHandler(event)"/>
+	</s:Form>
+</s:Group>

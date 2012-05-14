@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:Screens="Screens.*"
+			   xmlns:assets="assets.*"
+			   width="1600" height="100%" backgroundColor="#0C0606" creationComplete="initApp()"
+			   backgroundColor.FinPredictionState="#FFFFFF"
+			   backgroundColor.NatLangToolKitAlgStatState="#FFFFFF"
+			   backgroundColor.TrainNltkAlgorithmState="#FFFFFF">
+	
+	<fx:Style source="css\SocialVision.css"/>
+	
+	<fx:Script >
+		<![CDATA[
+			
+			private function initApp():void
+			{
+				homeScreen.applicationInastance = this;
+			}
+			
+			
+			public function changeStateTo(stateStr:String):void{
+				this.setCurrentState(stateStr);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="HomeState"/>
+		<s:State name="SocialExplorerState"/>
+		<s:State name="TwitFinCorExplorerState"/>
+		<s:State name="FinFinCorExplorerState"/>
+		<s:State name="TrainNltkAlgorithmState"/>
+		<s:State name="NatLangToolKitAlgStatState"/>
+		<s:State name="FinPredictionState"/>
+	</s:states>
+	
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+
+	<s:BitmapImage includeIn="FinFinCorExplorerState,HomeState,SocialExplorerState,TwitFinCorExplorerState, NatLangToolKitAlgStatState,FinPredictionState" width="100%"
+				   height="100%" minWidth="1600" minHeight="900" smooth="true"
+				   source="assets/justbackground.jpg"/>
+	
+	<s:BitmapImage includeIn="TrainNltkAlgorithmState" width="100%"
+				   height="100%" minWidth="1600" minHeight="900" smooth="true"
+				   source="assets/justbackground.jpg"/>
+	
+
+	<assets:Rectangle excludeFrom="HomeState" top="71" width="100%" height="20" scaleX="1">
+	</assets:Rectangle>
+	
+	<assets:NewLogo excludeFrom="HomeState" left="0" top="0" width="217.94" height="126.469">
+	</assets:NewLogo>
+
+	<s:Label includeIn="SocialExplorerState" left="1241" right="10" top="14" height="49" backgroundAlpha="1.0"
+			 color="#FFFFFF" fontFamily="Arial" fontSize="50" fontWeight="normal"
+			 text="Social Explorer" textAlign="center"/>
+	
+	<s:Label includeIn="TrainNltkAlgorithmState" x="844" y="20" fontSize="50" fontWeight="normal" color="#FFFFFF"
+			 text="Train Machine Learning Algorithm"/>
+	
+	<s:Label includeIn="FinFinCorExplorerState" right="6" 
+			 top="15" 
+			 fontSize="50" 
+			 fontWeight="normal"
+			 color="#FFFFFF"
+			 text="Financial Vs Financial Correlation Social Explorer"/>
+	
+	<s:Label includeIn="NatLangToolKitAlgStatState" right="6" 
+			 top="15" 
+			 fontSize="50" 
+			 fontWeight="normal"
+			 color="#FFFFFF"
+			 text="NLTK Machine Learning Stats"/>
+	
+	<s:Label includeIn="FinPredictionState" right="6" 
+			 top="15" 
+			 fontSize="50" 
+			 fontWeight="normal"
+			 color="#FFFFFF"
+			 text="Machine Learning Financial Prediction"/>
+	
+	<s:Scroller excludeFrom="HomeState" y="110" width="100%" height="100%"
+				x.TrainNltkAlgorithmState="3" y.TrainNltkAlgorithmState="-7">		
+		<s:Group >
+			<s:Group width="100%" clipAndEnableScrolling="true" >
+				<s:layout> <s:VerticalLayout horizontalAlign="center" /> 
+				</s:layout>
+				<Screens:SocialExplorerScreen id ="socialExplorerScreen" includeIn="SocialExplorerState"/>
+				<Screens:CorrelationTwitterVsFinanceScreen id="TwitFinCorExplorerScreen" includeIn="TwitFinCorExplorerState"/>
+				<Screens:MLTrainingCompanyScreen id = "MLTrainingCompanyScreen" includeIn="TrainNltkAlgorithmState"/>
+				<Screens:CorrelationFinanceVsFinanceScreen id = "CorrelationFinanceVsFinanceScreen" includeIn="FinFinCorExplorerState" />
+				<Screens:NLTKStatisticsScreen id ="NLTKStatisticsScreen" includeIn="NatLangToolKitAlgStatState" />
+				<Screens:FinancialPredictionMLScreen id = "FinancialPredictionMLScreen" includeIn="FinPredictionState" />
+			</s:Group>
+		</s:Group>
+	</s:Scroller>
+	
+	<s:Group includeIn="HomeState">
+		<s:Group id="myHomeScreenGroup" width="100%" clipAndEnableScrolling="true" >
+			
+			<s:layout>
+				<s:VerticalLayout horizontalAlign="center" />
+			</s:layout>
+			
+			<Screens:HomeScreen id="homeScreen">
+			</Screens:HomeScreen>
+			
+		</s:Group>
+	</s:Group>
+	
+	
+	<s:Button id="homeButton" label="Home" excludeFrom="HomeState" click="currentState = 'HomeState'"
+			  x="1530" y="70"/>
+	
+	
+	<s:Label includeIn="TwitFinCorExplorerState" left="694" right="10" top="14" height="49"
+			 backgroundAlpha="1.0" color="#FFFFFF" fontFamily="Arial" fontSize="50"
+			 fontWeight="normal" text="Twitter Vs Finance Correlation Explorer" textAlign="center"/>
+	
+	
+	
+</s:Application>

@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:valueObjects="valueObjects.*"
+			   xmlns:dbpredictionwebservices="services.dbpredictionwebservices.*"
+			   xmlns:dbpythonscriptswebservices="services.dbpythonscriptswebservices.*"
+			   width="1433" height="1326" minWidth="955" minHeight="600"
+			   creationComplete="initScreen()">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import valueObjects.FinancialPredictionTask;
+			
+			private var timer:Timer;
+			
+			[Bindable] public var scriptStatus:String = "Ready";
+			[Bindable] public var scriptProgress:String = "Ready";
+			private var isPredictionGenerated:Boolean = true;
+			public var currentRowSelected:FinancialPredictionTask = new FinancialPredictionTask();
+			
+			
+			// Initialisation of Form 
+			protected function initScreen():void
+			{
+				getAllFinancialPredictionTaskItems();
+				startPollingScriptStatus();
+				isPredictionGenerated = true;
+			}
+
+			protected function form_creationCompleteHandler(event:FlexEvent):void
+			{
+				getFinancialPredictionClassifierNLTKInputsResult.token = dBPredictionWebServices.getFinancialPredictionClassifierNLTKInputs();
+			}
+			
+			protected function form2_creationCompleteHandler(event:FlexEvent):void
+			{
+				getFinancialPredictionClassifierNLTKOutputsResult.token = dBPredictionWebServices.getFinancialPredictionClassifierNLTKOutputs();
+			}
+			
+			private function startPollingScriptStatus():void {
+				timer = new Timer(200);
+				timer.addEventListener(TimerEvent.TIMER, pollScriptStatus);
+				timer.start();
+			}
+			
+			// Form logic methods
+			private function pollScriptStatus(evt:TimerEvent):void
+			{
+				getPythonScriptStatus("NLTKFinancialPredictor");
+			}
+			
+			private function resetOutputValues():void
+			{
+				accuracyLabel.text = "-";
+				up_precisionLabel.text = "-";
+				up_recallLabel.text = "-";
+				down_precisionLabel.text = "-";
+				down_recallLabel.text = "-";
+				most_informative_featuresLabel.text = "Training the NLTK naive bayes classifier"
+				down_prediction_probLabel.text = "-";
+				up_prediction_probLabel.text = "-";
+				predictionLabel.text = "Calculating";
+			}
+			
+			private function updateValues():void
+			{
+				most_informative_featuresLabel.text = currentRowSelected.most_informative_features;
+				accuracyLabel.text = currentRowSelected.accuracy;
+				up_precisionLabel.text = currentRowSelected.up_precision.toString();
+				up_recallLabel.text = currentRowSelected.up_recall.toString();
+				down_precisionLabel.text = currentRowSelected.down_precision.toString();
+				down_recallLabel.text = currentRowSelected.down_recall.toString();
+				predictionLabel.text = currentRowSelected.prediction.toString();
+				up_prediction_probLabel.text = currentRowSelected.up_prediction_prob.toString();
+				down_prediction_probLabel.text = currentRowSelected.down_prediction_prob.toString();
+			}
+			
+			// Click Event Handlers
+			protected function buttonUpdateParameters_clickHandler(event:MouseEvent):void
+			{
+				// Update the prediction parameters in the database. 
+				updateFinancialPredictionClassifierNLTKInputs(
+					training_from_dateTextInput.text.toString(),
+					training_to_dateTextInput.text.toString(),
+					training_limitTextInput.text.toString(),
+					test_from_dateTextInput.text.toString(),
+					test_to_dateTextInput.text.toString(),
+					tweets_fin_time_delta_valueTextInput.text.toString(),
+					tweets_fin_time_delta_valueTextInput.text.toString(),
+					interval_unitTextInput.text.toString(),
+					interval_unitTextInput.text.toString(),
+					tweet_sourceTextInput.text.toString(),
+					remove_short_wordsTextInput.text.toString(),
+					remove_stop_wordsTextInput.text.toString(),
+					remove_low_info_wordsTextInput.text.toString(),
+					num_of_inf_wordsTextInput.text.toString(),
+					use_bigramsTextInput.text.toString(),
+					remove_non_englishTextInput.text.toString(),
+					remove_irrelevantTextInput.text.toString(),
+					include_subjectiveTextInput.text.toString(),
+					include_objectiveTextInput.text.toString(),
+					company_nameTextInput.text.toString())
+			}
+			
+			protected function predictionTasksGrid_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var id:int = predictionTasksGrid.selectedItem.prediction_task_id;
+				currentRowSelected = predictionTasksGrid.selectedItem as FinancialPredictionTask;
+				updateValues();
+				getPredictionPerformanceItemsForTask(id);
+			}
+			
+			protected function runPredictionAlgorithm_clickHandler(event:MouseEvent):void
+			{
+				isPredictionGenerated = false;
+				startNLTKFinancialPredictorScript();
+			}
+			
+			
+			// Webservice Calls
+			protected function getAllFinancialPredictionTaskItems():void
+			{
+				getAllFinancialPredictionTaskItemsResult.token = dBPredictionWebServices.getAllFinancialPredictionTaskItems();
+			}
+			
+			protected function updateFinancialPredictionClassifierNLTKInputs(training_from_date:String, training_to_date:String, 
+				training_limit:String, test_from_date:String, test_to_date:String, interval_value:String, tweets_fin_time_delta_value:String,
+				interval_unit:String, tweets_fin_time_delta_unit:String, tweet_source:String, remove_short_words:String, 
+				remove_stop_words:String, remove_low_info_words:String, num_of_inf_words:String, use_bigrams:String, 
+				remove_non_english:String, remove_irrelevant:String, include_subjective:String, include_objective:String, company_name:String):void
+			{
+				updateFinancialPredictionClassifierNLTKInputsResult.token = dBPredictionWebServices.updateFinancialPredictionClassifierNLTKInputs(training_from_date, training_to_date, training_limit, test_from_date, test_to_date, interval_value, tweets_fin_time_delta_value, interval_unit, tweets_fin_time_delta_unit, tweet_source, remove_short_words, remove_stop_words, remove_low_info_words, num_of_inf_words, use_bigrams, remove_non_english, remove_irrelevant, include_subjective, include_objective, company_name);
+			}
+			
+			protected function startNLTKFinancialPredictorScript():void
+			{
+				startNLTKFinancialPredictorScriptResult.token = dBPredictionWebServices.startNLTKFinancialPredictorScript();
+			}
+			
+			
+			protected function getPythonScriptStatus(script_name:String):void
+			{
+				getPythonScriptStatusResult.token = dBPythonScriptsWebServices.getPythonScriptStatus(script_name);
+			}
+			
+			protected function getPredictionPerformanceItemsForTask(prediction_task_id:int):void
+			{
+				getPredictionPerformanceItemsForTaskResult.token = dBPredictionWebServices.getPredictionPerformanceItemsForTask(prediction_task_id);
+			}
+			
+			// Result Event Handlers 
+			protected function getPythonScriptStatusResult_resultHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				scriptStatus = getPythonScriptStatusResult.lastResult.status;
+				scriptProgress = getPythonScriptStatusResult.lastResult.progress;
+				
+				if((scriptStatus == "Stopped")&&(!isPredictionGenerated))
+				{
+					isPredictionGenerated = true;
+					// Get outputs after the algorithm has stopped. 
+					getFinancialPredictionClassifierNLTKOutputsResult.token = dBPredictionWebServices.getFinancialPredictionClassifierNLTKOutputs();
+					getAllFinancialPredictionTaskItems();
+				}
+				else if ((!isPredictionGenerated))
+				{
+					resetOutputValues();
+				}
+			}
+			
+			protected function updateFinancialPredictionClassifierNLTKInputsResult_resultHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				getFinancialPredictionClassifierNLTKInputsResult.token = dBPredictionWebServices.getFinancialPredictionClassifierNLTKInputs();
+			}
+			
+			protected function getAllFinancialPredictionTaskItemsResult_resultHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				predictionTasksGrid.setSelectedIndex(0);
+			}
+		
+			protected function getPredictionPerformanceItemsForTaskResult_resultHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				getPredictionPerformanceItemsForTaskResult.lastResult;
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<valueObjects:FinancialPredictionClassifierNLTKInputs id="financialPredictionClassifierNLTKInputs"/>
+		<dbpredictionwebservices:DBPredictionWebServices id="dBPredictionWebServices"
+														 fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+														 />
+		<s:CallResponder id="getFinancialPredictionClassifierNLTKInputsResult"
+						 result="financialPredictionClassifierNLTKInputs = getFinancialPredictionClassifierNLTKInputsResult.lastResult as FinancialPredictionClassifierNLTKInputs"/>
+		<valueObjects:FinancialPredictionClassifierNLTKOutputs id="financialPredictionClassifierNLTKOutputs"/>
+		<s:CallResponder id="getFinancialPredictionClassifierNLTKOutputsResult"
+						 result="financialPredictionClassifierNLTKOutputs = getFinancialPredictionClassifierNLTKOutputsResult.lastResult as FinancialPredictionClassifierNLTKOutputs"/>
+		<s:CallResponder id="getAllFinancialPredictionTaskItemsResult" result="getAllFinancialPredictionTaskItemsResult_resultHandler(event)"/>
+		<s:CallResponder id="updateFinancialPredictionClassifierNLTKInputsResult" result="updateFinancialPredictionClassifierNLTKInputsResult_resultHandler(event)"/>
+		<s:CallResponder id="startNLTKFinancialPredictorScriptResult"/>
+		<s:CallResponder id="getPythonScriptStatusResult" result="getPythonScriptStatusResult_resultHandler(event)"/>
+		<dbpythonscriptswebservices:DBPythonScriptsWebServices id="dBPythonScriptsWebServices"
+															   fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+															   />
+		<s:CallResponder id="getPredictionPerformanceItemsForTaskResult" result="getPredictionPerformanceItemsForTaskResult_resultHandler(event)"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Form id="form" x="10" y="32" creationComplete="form_creationCompleteHandler(event)"
+			defaultButton="{buttonUpdateParameters}">
+		<s:FormItem label="Company Name" fontWeight="normal">
+			<s:TextInput id="company_nameTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.company_name}"/>
+		</s:FormItem>
+		<s:FormItem label="Tweet Source">
+			<s:TextInput id="tweet_sourceTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.tweet_source}"/>
+		</s:FormItem>
+		<s:FormItem label="Training From Date">
+			<s:TextInput id="training_from_dateTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.training_from_date}"/>
+		</s:FormItem>
+		<s:FormItem label="Training To Date">
+			<s:TextInput id="training_to_dateTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.training_to_date}"/>
+		</s:FormItem>
+		<s:FormItem label="Test From Date">
+			<s:TextInput id="test_from_dateTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.test_from_date}"/>
+		</s:FormItem>
+		<s:FormItem label="Test To Date">
+			<s:TextInput id="test_to_dateTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.test_to_date}"/>
+		</s:FormItem>
+		<s:FormItem label="Interval Shift">
+			<s:TextInput id="tweets_fin_time_delta_valueTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.tweets_fin_time_delta_value}"/>
+		</s:FormItem>
+		<s:FormItem label="Interval Unit Of Time">
+			<s:TextInput id="interval_unitTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.interval_unit}"/>
+		</s:FormItem>
+		<s:FormItem label="Training Limit">
+			<s:TextInput id="training_limitTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.training_limit}"/>
+		</s:FormItem>
+		<s:FormItem label="Remove Short Words">
+			<s:TextInput id="remove_short_wordsTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.remove_short_words}"/>
+		</s:FormItem>
+		<s:FormItem label="Remove Stop Words">
+			<s:TextInput id="remove_stop_wordsTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.remove_stop_words}"/>
+		</s:FormItem>
+		<s:FormItem label="Remove Low Info Words">
+			<s:TextInput id="remove_low_info_wordsTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.remove_low_info_words}"/>
+		</s:FormItem>
+		<s:FormItem label="Num Of Inf words">
+			<s:TextInput id="num_of_inf_wordsTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.num_of_inf_words}"/>
+		</s:FormItem>
+		<s:FormItem label="Use Bigrams">
+			<s:TextInput id="use_bigramsTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.use_bigrams}"/>
+		</s:FormItem>
+		<s:FormItem label="Remove Non English">
+			<s:TextInput id="remove_non_englishTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.remove_non_english}"/>
+		</s:FormItem>
+		<s:FormItem label="Remove Irrelevant">
+			<s:TextInput id="remove_irrelevantTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.remove_irrelevant}"/>
+		</s:FormItem>
+		<s:FormItem label="Include Subjective">
+			<s:TextInput id="include_subjectiveTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.include_subjective}"/>
+		</s:FormItem>
+		<s:FormItem label="Include Objective">
+			<s:TextInput id="include_objectiveTextInput"
+						 text="{financialPredictionClassifierNLTKInputs.include_objective}"/>
+		</s:FormItem>
+		<s:Button id="buttonUpdateParameters" label="Update Prediction Parameters" click="buttonUpdateParameters_clickHandler(event)"/>
+	</s:Form>
+	<s:Form id="form2" x="338" y="756" width="467" height="193"
+			creationComplete="form2_creationCompleteHandler(event)">
+		<s:FormItem label="Accuracy">
+			<s:Label id="accuracyLabel" text="{financialPredictionClassifierNLTKOutputs.accuracy}"/>
+		</s:FormItem>
+		<s:FormItem label="Down Recall">
+			<s:Label id="down_recallLabel"
+					 text="{financialPredictionClassifierNLTKOutputs.down_recall}"/>
+		</s:FormItem>
+		<s:FormItem label="Up Recall">
+			<s:Label id="up_recallLabel" text="{financialPredictionClassifierNLTKOutputs.up_recall}"/>
+		</s:FormItem>
+		<s:FormItem label="Down Precision">
+			<s:Label id="down_precisionLabel"
+					 text="{financialPredictionClassifierNLTKOutputs.down_precision}"/>
+		</s:FormItem>
+		<s:FormItem label="Up Precision">
+			<s:Label id="up_precisionLabel"
+					 text="{financialPredictionClassifierNLTKOutputs.up_precision}"/>
+		</s:FormItem>
+	</s:Form>
+	<s:FormItem x="349" y="254" height="33" label="Most Informative Features" fontSize="16">
+	</s:FormItem>
+	<s:FormItem x="830" y="673" width="429" height="61" label="Current Prediction: " fontSize="36">
+		<s:Label id="predictionLabel"
+				 text="{financialPredictionClassifierNLTKOutputs.prediction}"/>
+	</s:FormItem>
+	<s:FormItem id="upPredictionProbForm" x="1047" y="732" label="Up Prob">
+		<s:Label id="up_prediction_probLabel"
+				 text="{financialPredictionClassifierNLTKOutputs.up_prediction_prob}"/>
+	</s:FormItem>
+	<s:FormItem id="downPredictionProbForm" x="833" y="735" label="Down prob:">
+		<s:Label id="down_prediction_probLabel"
+				 text="{financialPredictionClassifierNLTKOutputs.down_prediction_prob}"/>
+	</s:FormItem>
+	<s:TextArea id="most_informative_featuresLabel" x="362" y="283" width="443" height="187"
+			 text="No Prediction Task Selected"/>
+	
+	
+	
+	<s:DataGrid id="predictionTasksGrid" x="362" y="37" width="443" height="211" requestedRowCount="4" click="predictionTasksGrid_clickHandler(event)">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn width="70" dataField="prediction_task_id" headerText="ID"></s:GridColumn>
+				<s:GridColumn width="70" dataField="company_name" headerText="Name"></s:GridColumn>
+				<s:GridColumn width="70" dataField="tweets_fin_time_delta_value"
+							  headerText="Int Shift"></s:GridColumn>
+				<s:GridColumn width="70" dataField="tweets_fin_time_delta_unit" headerText="Int Unit"></s:GridColumn>
+				<s:GridColumn width="80" dataField="training_from_date" headerText="Train From" >
+					<s:formatter >
+						<s:DateTimeFormatter id="formatDateTime4" dateStyle="short" />
+					</s:formatter>
+				</s:GridColumn>
+				<s:GridColumn width="80" dataField="training_to_date" headerText="Train To">
+					<s:formatter >
+						<s:DateTimeFormatter id="formatDateTime2" dateStyle="short" />
+					</s:formatter>
+				</s:GridColumn>
+				<s:GridColumn width="70" dataField="test_from_date" headerText="Test From">
+					<s:formatter >
+						<s:DateTimeFormatter id="formatDateTime3" dateStyle="short" />
+					</s:formatter>
+				</s:GridColumn>
+				<s:GridColumn width="70" dataField="test_to_date" headerText="Test To">
+					<s:formatter >
+						<s:DateTimeFormatter id="formatDateTime" dateStyle="short" />
+					</s:formatter>
+				</s:GridColumn>
+				<s:GridColumn dataField="prediction_type" headerText="Type"></s:GridColumn>
+				<s:GridColumn dataField="date_run" headerText="Date run"></s:GridColumn>
+				<s:GridColumn dataField="tweet_source" headerText="Tweet Source"></s:GridColumn>
+				<s:GridColumn dataField="training_limit" headerText="Training Limit"></s:GridColumn>
+				<s:GridColumn dataField="historical_current_type"
+							  headerText="historical_current_type"></s:GridColumn>
+				<s:GridColumn dataField="remove_short_words" headerText="remove_short_words"></s:GridColumn>
+				<s:GridColumn dataField="remove_stop_words" headerText="remove_stop_words"></s:GridColumn>
+				<s:GridColumn dataField="remove_low_info_words" headerText="remove_low_info_words"></s:GridColumn>
+				<s:GridColumn dataField="num_of_inf_words" headerText="num_of_inf_words"></s:GridColumn>
+				<s:GridColumn dataField="use_bigrams" headerText="use_bigrams"></s:GridColumn>
+				<s:GridColumn dataField="remove_non_english" headerText="remove_non_english"></s:GridColumn>
+				<s:GridColumn dataField="tweets_fin_time_delta_unit"
+							  headerText="tweets_fin_time_delta_unit"></s:GridColumn>
+				<s:GridColumn dataField="interval_value" headerText="interval_value"></s:GridColumn>
+				<s:GridColumn dataField="remove_irrelevant" headerText="remove_irrelevant"></s:GridColumn>
+				<s:GridColumn dataField="include_subjective" headerText="include_subjective"></s:GridColumn>
+				<s:GridColumn dataField="include_objective" headerText="include_objective"></s:GridColumn>
+				<s:GridColumn dataField="down_precision" headerText="down_precision"></s:GridColumn>
+				<s:GridColumn dataField="down_recall" headerText="down_recall"></s:GridColumn>
+				<s:GridColumn dataField="up_precision" headerText="up_precision"></s:GridColumn>
+				<s:GridColumn dataField="up_recall" headerText="up_recall"></s:GridColumn>
+				<s:GridColumn dataField="prediction" headerText="prediction"></s:GridColumn>
+				<s:GridColumn dataField="up_prediction_prob" headerText="up_prediction_prob"></s:GridColumn>
+				<s:GridColumn dataField="down_prediction_prob" headerText="down_prediction_prob"></s:GridColumn>
+				<s:GridColumn dataField="num_of_most_intersting_features_to_show"
+							  headerText="num_of_most_intersting_features_to_show"></s:GridColumn>
+				<s:GridColumn dataField="most_informative_features"
+							  headerText="most_informative_features"></s:GridColumn>
+			</s:ArrayList>
+		</s:columns>
+		<s:typicalItem>
+			<fx:Object company_name="company_name1" date_run="date_run1"
+					   down_precision="down_precision1" down_prediction_prob="down_prediction_prob1"
+					   down_recall="down_recall1" historical_current_type="historical_current_type1"
+					   include_objective="include_objective1"
+					   include_subjective="include_subjective1" interval_unit="interval_unit1"
+					   interval_value="interval_value1"
+					   most_informative_features="most_informative_features1"
+					   num_of_inf_words="num_of_inf_words1"
+					   num_of_most_intersting_features_to_show="num_of_most_intersting_features_to_show1"
+					   prediction="prediction1" prediction_task_id="prediction_task_id1"
+					   prediction_type="prediction_type1" remove_irrelevant="remove_irrelevant1"
+					   remove_low_info_words="remove_low_info_words1"
+					   remove_non_english="remove_non_english1"
+					   remove_short_words="remove_short_words1"
+					   remove_stop_words="remove_stop_words1" test_from_date="test_from_date1"
+					   test_to_date="test_to_date1" training_from_date="training_from_date1"
+					   training_limit="training_limit1" training_to_date="training_to_date1"
+					   tweet_source="tweet_source1"
+					   tweets_fin_time_delta_unit="tweets_fin_time_delta_unit1"
+					   tweets_fin_time_delta_value="tweets_fin_time_delta_value1"
+					   up_precision="up_precision1" up_prediction_prob="up_prediction_prob1"
+					   up_recall="up_recall1" use_bigrams="use_bigrams1"></fx:Object>
+		</s:typicalItem>
+		<s:AsyncListView list="{getAllFinancialPredictionTaskItemsResult.lastResult}"/>
+	</s:DataGrid>
+	<s:DataGrid id="dataGrid" x="362" y="507" width="443" height="215" requestedRowCount="4">
+		
+		
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn width="77" dataField="predicted_from_date" headerText="Date"> 
+					<s:formatter >
+						<s:DateTimeFormatter id="formatDateTime1" dateStyle="short" />
+					</s:formatter>
+				</s:GridColumn>
+				<s:GridColumn width="100" dataField="actual_financial_change_percent"
+							  headerText="Act % Change "></s:GridColumn>
+				<s:GridColumn width="100" dataField="actual_financial_direction"
+							  headerText="Act Direction"></s:GridColumn>
+				<s:GridColumn width="80" dataField="predicted_financial_direction"
+							  headerText="Pred Dir"></s:GridColumn>
+				<s:GridColumn width="80" dataField="predicted_financial_normalised_prob"
+							  headerText="Pred Prob"></s:GridColumn>
+				<s:GridColumn dataField="predicted_financial_up_prob"
+							  headerText="predicted_financial_up_prob"></s:GridColumn>
+				<s:GridColumn dataField="predicted_financial_down_prob"
+							  headerText="predicted_financial_down_prob"></s:GridColumn>
+				<s:GridColumn dataField="actual_financial_change_value"
+							  headerText="actual_financial_change_value"></s:GridColumn>
+				<s:GridColumn dataField="predicted_financial_change"
+							  headerText="predicted_financial_change"></s:GridColumn>
+				<s:GridColumn dataField="_date" headerText="_date">
+					<s:formatter >
+						<s:DateTimeFormatter id="formatDateTime5" dateStyle="short" />
+					</s:formatter>
+				</s:GridColumn>
+				<s:GridColumn dataField="company_name" headerText="company_name"></s:GridColumn>
+				<s:GridColumn dataField="prediction_task_id" headerText="prediction_task_id"></s:GridColumn>
+				<s:GridColumn dataField="predicton_type" headerText="predicton_type"></s:GridColumn>
+				<s:GridColumn dataField="prediction_data_item_id"
+							  headerText="prediction_data_item_id"></s:GridColumn>
+			</s:ArrayList>
+		</s:columns>
+		<s:typicalItem>
+			<fx:Object _date="_date1"
+					   actual_financial_change_percent="actual_financial_change_percent1"
+					   actual_financial_change_value="actual_financial_change_value1"
+					   actual_financial_direction="actual_financial_direction1"
+					   company_name="company_name1"
+					   predicted_financial_change="predicted_financial_change1"
+					   predicted_financial_direction="predicted_financial_direction1"
+					   predicted_financial_down_prob="predicted_financial_down_prob1"
+					   predicted_financial_normalised_prob="predicted_financial_normalised_prob1"
+					   predicted_financial_up_prob="predicted_financial_up_prob1"
+					   predicted_from_date="predicted_from_date1"
+					   prediction_data_item_id="prediction_data_item_id1"
+					   prediction_task_id="prediction_task_id1" predicton_type="predicton_type1"></fx:Object>
+		</s:typicalItem>
+		<s:AsyncListView list="{getPredictionPerformanceItemsForTaskResult.lastResult}"/>
+	</s:DataGrid>
+	<s:FormItem x="349" y="478" height="33" label="Historical Financial Prediction Data"
+				fontSize="16" textAlign="left">
+	</s:FormItem>
+	<s:Button id="runPredictionAlgorithm" x="850" y="782" width="530" height="97"
+			  label="Generate Prediction" fontSize="18" fontWeight="bold" textDecoration="none" click="runPredictionAlgorithm_clickHandler(event)"/>
+	<mx:LineChart id="ActualFinance" x="819" y="37" width="591" height="290"
+				  dataProvider="{getPredictionPerformanceItemsForTaskResult.lastResult}"
+				  showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries" displayName="Finance"
+						   xField="predicted_from_date" yField="actual_financial_change_percent"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1325" y="16" dataProvider="{ActualFinance}"/>
+	<mx:LineChart id="Prediction" x="818" y="370" width="591" height="283"
+				  dataProvider="{getPredictionPerformanceItemsForTaskResult.lastResult}"
+				  showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries2" displayName="Direction Prob" xField="predicted_from_date"
+						   yField="predicted_financial_normalised_prob"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1323" y="349" dataProvider="{Prediction}"/>
+	<s:Label id="scriptStatusTitleLabel" x="851" y="890" fontSize="17" fontWeight="bold"
+			 text="Script Status:"/>
+	<s:Label id="scriptProgressTitleLabel" x="851" y="922" fontSize="17" fontWeight="bold"
+			 text="Script Progress:"/>
+	<s:Label id="scriptStatusLabel" x="968" y="890" width="430" fontSize="17" fontWeight="normal"
+			 text="{scriptStatus}"/>
+	<s:Label id="scriptProgressLabel" x="987" y="921" width="411" height="44" fontSize="17"
+			 fontWeight="normal" text="{scriptProgress}"/>
+	<s:FormItem x="346" y="735" height="33" label="Overall Prediction Performance"
+				fontSize="16" textAlign="left">
+	</s:FormItem>
+	<s:FormItem x="350" y="10" height="33" label="Generated Prediction Tasks" fontSize="16">
+	</s:FormItem>
+	<s:FormItem x="21" y="12" height="33" label="Prediction Parameters" fontSize="16"
+				fontWeight="bold">
+	</s:FormItem>
+	<s:FormItem x="829" y="10" height="33" label="Historical Financial Data (Percentage Change)" fontSize="16">
+	</s:FormItem>
+	<s:FormItem x="829" y="348" height="33" label="Historical Prediction Data (Probability Percentage )" fontSize="16">
+	</s:FormItem>
+	
+	
+</s:Group>

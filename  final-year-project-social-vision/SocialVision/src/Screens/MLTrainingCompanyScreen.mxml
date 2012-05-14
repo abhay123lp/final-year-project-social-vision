@@ -1,0 +1,920 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<s:Group xmlns:ATE="http://ns.adobe.com/ate/2009"
+			   xmlns:ai="http://ns.adobe.com/ai/2009"
+			   xmlns:fc="http://ns.adobe.com/flashcatalyst/2009"
+			   xmlns:lib="assets.graphics.AdvanceTrainingCompany.*"
+			   xmlns:d="http://ns.adobe.com/fxg/2008/dt"
+			   xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:flm="http://ns.adobe.com/flame/2008"
+			   width="100%" height="100%" 
+			   fc:previewHeight="742" fc:previewWidth="1172"
+			   creationComplete="initApp()">
+	<fx:Style source="css\MLTrainingCompaningScreen.css"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.events.KeyboardEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import services.dbmachinelearningwebservices.DBMachineLearningWebServices;
+			
+			import valueObjects.MachineLearningItem;
+			import valueObjects.SentimentRow;
+			
+			// Bindable Variables for count displays
+			[Bindable] public var notEnglishCount:int = 0;
+			[Bindable] public var notRelevantCount:int = 0;
+			[Bindable] public var declineCount:int = 0;
+			[Bindable] public var growthCount:int = 0;
+			[Bindable] public var neutralCount:int = 0;
+			[Bindable] public var negativeCount:int = 0;	
+			[Bindable] public var positiveCount:int = 0;
+			
+			// Binable Variable for overall text displays
+			[Bindable] public var dateString:String = "Date";
+			[Bindable] public var numberString:String = "Number";	
+			[Bindable] public var tweetSourceString:String = "None";
+			[Bindable] public var totalInt:int = 0;
+			[Bindable] public var companyString:String = "Company";	
+			[Bindable] public var classifiedString:String = "Classification";
+			[Bindable] public var currentItem:MachineLearningItem = null;
+			
+			// Tweet Text Variable
+			[Bindable] var tweetTextString:String = "Tweet Content";
+			[Bindable] public var currentPosition:int = 0;
+			
+			
+			// Private Variables
+			public var socialData:ArrayCollection = new ArrayCollection();
+			private var rawData:ArrayCollection;
+			
+			
+			protected function initApp():void
+			{
+				// Add Keyboard short cuts
+				this.addEventListener(KeyboardEvent.KEY_DOWN, trapkeys);
+				MachineLearningWebService.getTotalsForMachineLearningCompanyData();
+				
+				// Call webservice to un classified tweets
+			}
+			
+			// Handler for key board events
+			private function trapkeys(event:KeyboardEvent):void
+			{
+				if(currentItem != null)
+				{
+					// If 1 is pressed - not english 
+					if(event.charCode == 49)
+					{
+						// TODO Auto-generated method stub
+						var sentiment_relevance:String = "irrelevant";
+						var is_english:String = "n";
+						var relevant:String = "x";
+						var subjectivity:String = "x";
+						var is_neutral:String = "x";
+						var sentiment:String = "x";
+						var growth_recession:String = "x";
+						var political_stability:String = "x";
+						
+						updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+						MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+							TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+						
+					}
+					
+					// If 2 is pressed - irrelevant
+					else if(event.charCode == 50)
+					{
+						// TODO Auto-generated method stub
+						var sentiment_relevance:String = "Irrelevant";
+						var is_english:String = "y";
+						var relevant:String = "i";
+						var subjectivity:String = "x";
+						var is_neutral:String = "x";
+						var sentiment:String = "x";
+						var growth_recession:String = "x";
+						var political_stability:String = "x";
+						
+						updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+						MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+							TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+						
+					}
+					
+					// If 3 is pressed - decline
+					else if(event.charCode == 51)
+					{
+						// TODO Auto-generated method stub
+						var sentiment_relevance:String = "negative";
+						var is_english:String = "y";
+						var relevant:String = "r";
+						var subjectivity:String = "o";
+						var is_neutral:String = "n";
+						var sentiment:String = "x";
+						var growth_recession:String = "r";
+						var political_stability:String = "x";
+						
+						updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+						MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+							TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+					}
+					
+					// If 4 is pressed - growth 
+					else if(event.charCode == 52)
+					{
+						// TODO Auto-generated method stub
+						var sentiment_relevance:String = "positive";
+						var is_english:String = "y";
+						var relevant:String = "r";
+						var subjectivity:String = "o";
+						var is_neutral:String = "n";
+						var sentiment:String = "x";
+						var growth_recession:String = "g";
+						var political_stability:String = "x";
+						
+						updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+						MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+							TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);	
+						
+
+					}
+					
+					// If 5 is pressed - neutral
+					else if(event.charCode == 53)
+					{
+						// TODO Auto-generated method stub
+						var sentiment_relevance:String = "neutral";
+						var is_english:String = "y";
+						var relevant:String = "r";
+						var subjectivity:String = "x";
+						var is_neutral:String = "y";
+						var sentiment:String = "x";
+						var growth_recession:String = "x";
+						var political_stability:String = "x";
+						
+						updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+						MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+							TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+						
+					}
+					
+					// If 6 is pressed - negative
+					else if(event.charCode == 54)
+					{
+						// TODO Auto-generated method stub
+						// TODO Auto-generated method stub
+						var sentiment_relevance:String = "negative";
+						var is_english:String = "y";
+						var relevant:String = "r";
+						var subjectivity:String = "s";
+						var is_neutral:String = "n";
+						var sentiment:String = "n";
+						var growth_recession:String = "x";
+						var political_stability:String = "x";
+						
+						updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+						MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+							TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);	
+												
+					}
+					
+					// If 7 is pressed - positive
+					else if(event.charCode == 55)
+					{
+						// TODO Auto-generated method stub
+						var sentiment_relevance:String = "positive";
+						var is_english:String = "y";
+						var relevant:String = "r";
+						var subjectivity:String = "s";
+						var is_neutral:String = "n";
+						var sentiment:String = "p";
+						var growth_recession:String = "x";
+						var political_stability:String = "x";
+						
+						updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+						MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+							TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+					}
+
+				}
+			}
+
+			
+			private function updateOverallSentiment():void
+			{
+				classifiedString = "Not Classified"
+				if (currentItem.is_english == "n")
+				{
+					classifiedString = "Not English"
+				}
+				
+				if (currentItem.relevant == "i")
+				{
+					classifiedString = "Not Relevant"
+				}
+				
+				if (currentItem.is_neutral == "y")
+				{
+					classifiedString = "Neutral"
+				}
+				
+				if (currentItem.growth_recession == "g")
+				{
+					classifiedString = "Growth"
+				}
+				
+				if (currentItem.growth_recession == "r")
+				{
+					classifiedString = "Decline"
+				}
+				
+				if (currentItem.political_stability == "s")
+				{
+					classifiedString = "Stable"
+				}
+				if (currentItem.political_stability == "i")
+				{
+					classifiedString = "Instable"
+				}
+				
+				if (currentItem.sentiment == "p")
+				{
+					classifiedString = "Positive"
+				}
+				
+				if (currentItem.sentiment == "n")
+				{
+					classifiedString = "Negative"
+				}
+			}
+			
+			protected function updateSocialArray(sentiment_relevance:String,
+											   is_english:String,
+											   relevant:String,
+											   subjectivity:String,
+											   is_neutral:String,
+											   sentiment:String,
+											   growth_recession:String,
+											   political_stability:String):void
+			{		
+				
+				(socialData.getItemAt(currentPosition) as MachineLearningItem).content = TweetAreaText.text.toString();
+				(socialData.getItemAt(currentPosition) as MachineLearningItem).sentiment_relevance = sentiment_relevance;
+				(socialData.getItemAt(currentPosition) as MachineLearningItem).is_english = is_english;
+				(socialData.getItemAt(currentPosition) as MachineLearningItem).relevant = relevant;
+				(socialData.getItemAt(currentPosition) as MachineLearningItem).subjectivity = subjectivity;
+				(socialData.getItemAt(currentPosition) as MachineLearningItem).is_neutral = is_neutral;
+				(socialData.getItemAt(currentPosition) as MachineLearningItem).sentiment = sentiment;
+				(socialData.getItemAt(currentPosition) as MachineLearningItem).growth_recession = growth_recession;
+				(socialData.getItemAt(currentPosition) as MachineLearningItem).political_stability = political_stability;
+
+			}
+			
+			protected function GetDataButton_clickHandler(event:MouseEvent):void
+			{
+				// update current selected tweet
+				MachineLearningWebService.getAllUnclassifiedCompanyTweets();
+			}
+			
+			protected function PositiveButton_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var sentiment_relevance:String = "positive";
+				var is_english:String = "y";
+				var relevant:String = "r";
+				var subjectivity:String = "s";
+				var is_neutral:String = "n";
+				var sentiment:String = "p";
+				var growth_recession:String = "x";
+				var political_stability:String = "x";
+				
+				updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+				MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+					TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+			}
+			
+			protected function NegativeButton_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				var sentiment_relevance:String = "negative";
+				var is_english:String = "y";
+				var relevant:String = "r";
+				var subjectivity:String = "s";
+				var is_neutral:String = "n";
+				var sentiment:String = "n";
+				var growth_recession:String = "x";
+				var political_stability:String = "x";
+				
+				updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+				MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+					TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);	
+			}
+			
+			
+			protected function NeutralButton_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var sentiment_relevance:String = "neutral";
+				var is_english:String = "y";
+				var relevant:String = "r";
+				var subjectivity:String = "x";
+				var is_neutral:String = "y";
+				var sentiment:String = "x";
+				var growth_recession:String = "x";
+				var political_stability:String = "x";
+				
+				updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+				MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+					TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+				
+			}
+			
+			protected function GrowthButton_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var sentiment_relevance:String = "positive";
+				var is_english:String = "y";
+				var relevant:String = "r";
+				var subjectivity:String = "o";
+				var is_neutral:String = "n";
+				var sentiment:String = "x";
+				var growth_recession:String = "g";
+				var political_stability:String = "x";
+				
+				updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+				MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+					TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);	
+			}
+			
+			protected function DeclineButton_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var sentiment_relevance:String = "negative";
+				var is_english:String = "y";
+				var relevant:String = "r";
+				var subjectivity:String = "o";
+				var is_neutral:String = "n";
+				var sentiment:String = "x";
+				var growth_recession:String = "r";
+				var political_stability:String = "x";
+				
+				updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+				MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+					TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+			}
+			
+			
+			protected function NotEnglishButton_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var sentiment_relevance:String = "irrelevant";
+				var is_english:String = "n";
+				var relevant:String = "x";
+				var subjectivity:String = "x";
+				var is_neutral:String = "x";
+				var sentiment:String = "x";
+				var growth_recession:String = "x";
+				var political_stability:String = "x";
+				
+				updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+				MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+					TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+			}
+			
+			protected function NotRelevantButton_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var sentiment_relevance:String = "Irrelevant";
+				var is_english:String = "y";
+				var relevant:String = "i";
+				var subjectivity:String = "x";
+				var is_neutral:String = "x";
+				var sentiment:String = "x";
+				var growth_recession:String = "x";
+				var political_stability:String = "x";
+				
+				updateSocialArray(sentiment_relevance,is_english,relevant,subjectivity,is_neutral,sentiment,growth_recession,political_stability)
+				MachineLearningWebService.updateUnclassifiedCompanyTweet(currentItem.tweet_id, 
+					TweetAreaText.text.toString(), sentiment_relevance, is_english,relevant,subjectivity,is_neutral, sentiment, growth_recession, political_stability);
+			}
+			
+			
+			
+			protected function PreviousButton_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(currentItem != null)
+				{
+					// TODO Auto-generated method stub
+					if(currentPosition != 0)
+						currentPosition --; 	
+					currentItem = (socialData.getItemAt(currentPosition) as MachineLearningItem);
+					tweetTextString = currentItem.content.toString();
+					updateOverallSentiment();
+				}
+			}
+			
+			protected function NextButton_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(currentItem != null)
+				{
+					// TODO Auto-generated method stub
+					if (currentPosition < socialData.length -1) 
+						currentPosition ++; 	
+					currentItem = (socialData.getItemAt(currentPosition) as MachineLearningItem);
+					tweetTextString = currentItem.content.toString();
+					updateOverallSentiment();
+				}
+			}
+			
+			protected function getTotalsForMachineLearningCompanyDataHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				notEnglishCount = event.result.numOfNotEnglish;
+				notRelevantCount = event.result.numOfNotRelevant;
+				declineCount = event.result.numOfRecession;
+				growthCount = event.result.numOfGrowth;
+				neutralCount = event.result.numOfNeutral;
+				negativeCount = event.result.numOfNegative;	
+				positiveCount = event.result.numOfPositive;
+
+			}
+			
+			protected function updateUnclassifiedCompanyTweetHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(currentItem != null)
+				{
+					// TODO Auto-generated method stub
+					if (currentPosition < socialData.length -1) 
+						currentPosition ++; 	
+					currentItem = (socialData.getItemAt(currentPosition) as MachineLearningItem);
+					tweetTextString = currentItem.content.toString();
+					updateOverallSentiment();
+				}
+				
+				MachineLearningWebService.getTotalsForMachineLearningCompanyData();
+			}
+			
+			protected function getAllClassifiedCompanyTweetsHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				socialData = new ArrayCollection();
+				rawData = event.result as ArrayCollection;
+				
+				var item:MachineLearningItem;
+				for each(var emp:Object in rawData) 
+				{ 
+					item = new MachineLearningItem();
+					item.tweet_id = emp.tweet_id;
+					item.name = emp.name;
+					item.tweet_source = emp.tweet_source;
+					item.data_group = emp.data_group;
+					item.is_classified = emp.is_classified;
+					item.content = emp.content;
+					item.sentiment_relevance = emp.sentiment_relevance;
+					item.is_english = emp.is_english;
+					item.relevant = emp.relevant;
+					item.subjectivity = emp.subjectivity;
+					item.is_neutral = emp.is_neutral ;
+					item.sentiment = emp.sentiment;
+					
+					item.growth_recession = emp.growth_recession;
+					item.political_stability = emp.political_stability;		
+					socialData.addItem(item);
+				}
+				
+				// Update the text box with first tweet
+				if(socialData.length > 0)
+				{
+					currentPosition = 0;
+					currentItem = (socialData.getItemAt(currentPosition) as MachineLearningItem);
+					tweetTextString = currentItem.content.toString();
+					updateOverallSentiment();
+					totalInt = socialData.length;
+				}
+				
+				MachineLearningWebService.getTotalsForMachineLearningCompanyData();
+			}
+			
+			protected function getAllUnclassifiedCompanyTweetsHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				socialData = new ArrayCollection();
+				rawData = event.result as ArrayCollection;
+				
+				var item:MachineLearningItem;
+				for each(var emp:Object in rawData) 
+				{ 
+					item = new MachineLearningItem();
+					item.tweet_id = emp.tweet_id;
+					item.name = emp.name;
+					item.tweet_source = emp.tweet_source;
+					item.data_group = emp.data_group;
+					item.is_classified = emp.is_classified;
+					item.content = emp.content;
+					item.sentiment_relevance = emp.sentiment_relevance;
+					item.is_english = emp.is_english;
+					item.relevant = emp.relevant;
+					item.subjectivity = emp.subjectivity;
+					item.is_neutral = emp.is_neutral ;
+					item.sentiment = emp.sentiment;
+					
+					item.growth_recession = emp.growth_recession;
+					item.political_stability = emp.political_stability;		
+					socialData.addItem(item);
+					
+				}
+				
+				// Update the text box with first tweet
+				if(socialData.length > 0)
+				{
+					currentPosition = 0;
+					currentItem = (socialData.getItemAt(currentPosition) as MachineLearningItem);
+					tweetTextString = currentItem.content.toString();
+					updateOverallSentiment();
+					totalInt = socialData.length;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->	
+		<s:WebService id="MachineLearningWebService" 
+					  wsdl="http://localhost:8080/SocialVision/DBMachineLearningWebServices?wsdl" 
+					  showBusyCursor="true"
+					  >
+			<s:operation  
+				name = "getAllUnclassifiedCompanyTweets"
+				result="getAllUnclassifiedCompanyTweetsHandler(event)">
+							
+			</s:operation>
+			<s:operation  
+				name = "getAllClassifiedCompanyTweets"
+				result="getAllClassifiedCompanyTweetsHandler(event)">
+				
+			</s:operation>
+			<s:operation  
+				name = "updateUnclassifiedCompanyTweet"
+				result="updateUnclassifiedCompanyTweetHandler(event)">
+				
+			</s:operation>
+			<s:operation  
+				name = "getTotalsForMachineLearningCompanyData"
+				result="getTotalsForMachineLearningCompanyDataHandler(event)">
+				
+			</s:operation>
+		</s:WebService>
+	</fx:Declarations>
+	
+	<s:Group horizontalCenter="0">
+		
+		<fx:DesignLayer d:id="2" d:userLabel="Layer 1">
+			
+			<s:TextArea id = "TweetAreaText" x="194" y="198" 
+						 buttonMode="false" 
+						 skinClass="components.TweetAreaText"
+						 text="{tweetTextString}"/>
+			
+			<s:Button id = "GetDataButton"
+					  click="GetDataButton_clickHandler(event)"
+					  d:userLabel="GetDataButton"
+					  x="32" y="267" 
+					  skinClass="components.PreviousButton"/>
+			
+			<s:Button id = "PositiveButton"
+					  click="PositiveButton_clickHandler(event)"
+					  x="997" y="544" 
+					  skinClass="components.PositiveButton"/>
+			
+			<s:Button id = "NeutralButton" 
+					  click = "NeutralButton_clickHandler(event)"
+					  x="674" y="544" 
+					  skinClass="components.NeutralButton"/>
+			
+			<s:Button id = "GrowthButton" x="501" y="545" 
+					  click="GrowthButton_clickHandler(event)"
+					  skinClass="components.GrowthButton"/>
+			
+			<s:Button id = "DeclineButton" 
+					  click="DeclineButton_clickHandler(event)"
+					  x="348" y="545" 
+					  skinClass="components.DeclineButton"/>
+			
+			<s:Button id = "PreviousButton"
+					  click="PreviousButton_clickHandler(event)"
+					  x="985" y="334" 
+					  skinClass="components.PreviousButton"/>
+			
+			<s:Button id = "NextButton" x="985" y="228" 
+					  click="NextButton_clickHandler(event)"
+					  skinClass="components.NextButton"/>
+			
+			<s:Button id = "NotEnglishButton" x="23" y="545"
+					  click="NotEnglishButton_clickHandler(event)"
+					  skinClass="components.NotEnglishButton"/>
+			
+			<s:Button id = "NotRelevantButton" x="177" y="545" 
+					  click="NotRelevantButton_clickHandler(event)"
+					  skinClass="components.NotRelevantButton"/>
+			
+			<s:Button id = "NegativeButton" x="844" y="544"
+					  click="NegativeButton_clickHandler(event)"
+					  skinClass="components.NegativeButton"/>
+					
+			<s:RichText id="NotEnglishCountText" d:userLabel="0" x="22" y="646" width="141" ai:aa="2" color="#000000"
+						columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" kerning="on"
+						tabStops="S36" 
+						text="{notEnglishCount}" textAlign="center" flm:variant="21"
+						whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id="NotRelevantCountText" d:userLabel="0" x="176" y="646" width="136" ai:aa="2" color="#000000"
+						columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" kerning="on"
+						tabStops="S36" 
+						text="{notRelevantCount}" textAlign="center" flm:variant="22"
+						whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id="DeclineCountText" d:userLabel="0" x="345" y="646" width="137" ai:aa="2" color="#000000"
+						columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" kerning="on"
+						tabStops="S36" 
+						text="{declineCount}" textAlign="center" flm:variant="23"
+						whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id="GrowthCountText" d:userLabel="0" x="501" y="646" width="138" ai:aa="2" color="#000000"
+						columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" kerning="on"
+						tabStops="S36" 
+						text="{growthCount}" textAlign="center" flm:variant="24"
+						whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id="NeutralCountText" d:userLabel="0" x="676" y="645" width="137" ai:aa="2" color="#000000"
+						columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" kerning="on"
+						tabStops="S36" 
+						text="{neutralCount}" textAlign="center" flm:variant="23"
+						whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id="NegativeCountText" d:userLabel="0" x="845" y="646" width="135" ai:aa="2" color="#000000"
+						columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" kerning="on"
+						tabStops="S36" 
+						text="{negativeCount}" textAlign="center" flm:variant="25"
+						whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id="PositiveCountText" d:userLabel="0" x="1001" y="646" width="131" ai:aa="2" color="#000000"
+						columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" kerning="on"
+						tabStops="S36" 
+						text="{positiveCount}" textAlign="center" flm:variant="26"
+						whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id ="NumberText" d:id="14" d:userLabel="Number " x="389" y="162" width="179"
+						ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond"
+						fontSize="24" fontWeight="bold" kerning="on" tabStops="S36" 
+						text="{currentItem.name}"
+						textAlign="center" flm:variant="4" whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id="TweetSourceText" d:id="15" d:userLabel="Tweet Source " x="191" y="163"
+						width="194" ai:aa="2" color="#000000" columnCount="1"
+						fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" kerning="on"
+						tabStops="S36 S72 S108" 
+						text="{currentItem.tweet_source}" textAlign="center" flm:variant="5"
+						whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id="TotalText" d:id="36" d:userLabel="Total " x="571" y="162" width="188"
+						ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond"
+						fontSize="24" fontWeight="bold" kerning="on" tabStops="S36" 
+						text= "{currentPosition + 1} of {totalInt}"
+						textAlign="center" flm:variant="14" whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText id="ClassifiedText" d:id="32" d:userLabel="Classified" x="766" y="162" width="187"
+						ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond"
+						fontSize="24" fontWeight="bold" kerning="on" tabStops="S36 S72"
+						text="{classifiedString}" textAlign="center" flm:variant="12"
+						whiteSpaceCollapse="preserve"/>
+			
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" d:id="45" kerning="on" tabStops="S36 S72" text="Neutrality" d:userLabel="Objectivity" flm:variant="17" whiteSpaceCollapse="preserve" x="704" y="512"/>			
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" d:id="50" kerning="on" tabStops="S36" text="Positive" d:userLabel="Positive" flm:variant="19" whiteSpaceCollapse="preserve" x="1033" y="578"/>	
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" d:id="38" kerning="on" tabStops="S36" text="Neutral" d:userLabel="Decline" flm:variant="15" whiteSpaceCollapse="preserve" x="711" y="578"/>
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" d:id="17" kerning="on" tabStops="S36 S72" text="Get Data" textAlign="center" d:userLabel=" Previous" flm:variant="6" whiteSpaceCollapse="preserve" x="61" y="301"/>
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" d:id="41" kerning="on" tabStops="S36" text="Growth" d:userLabel="Growth" flm:variant="16" whiteSpaceCollapse="preserve" x="535" y="579"/>	
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" d:id="38" kerning="on" tabStops="S36" text="Decline" d:userLabel="Decline" flm:variant="15" whiteSpaceCollapse="preserve" x="385" y="579"/>
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" d:id="17" kerning="on" tabStops="S36 S72" text=" Previous" textAlign="center" d:userLabel=" Previous" flm:variant="6" whiteSpaceCollapse="preserve" x="1014" y="369"/>
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" d:id="19" kerning="on" tabStops="S36" text="Next " d:userLabel="Next " flm:variant="7" whiteSpaceCollapse="preserve" x="1030" y="262"/>
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" d:id="45" kerning="on" tabStops="S36 S72" text="Objectivity" d:userLabel="Objectivity" flm:variant="17" whiteSpaceCollapse="preserve" x="457" y="511"/>
+			<s:RichText d:id="27" d:userLabel="Not English" x="42" y="579" ai:aa="2" color="#000000"
+						columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold"
+						kerning="on" tabStops="S36 S72" text="Not English "
+						textAlign="center" flm:variant="10" whiteSpaceCollapse="preserve"/>
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" d:id="30" kerning="on" tabStops="S36 S72 S108" text="Not Relevant" d:userLabel="Not Relevant" flm:variant="11" whiteSpaceCollapse="preserve" x="192" y="579"/>
+			<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" fontWeight="bold" d:id="47" kerning="on" tabStops="S36 S72" text="Negative" d:userLabel="Negative" flm:variant="18" whiteSpaceCollapse="preserve" x="875" y="578"/>
+			
+			<s:Group x="771" y="157" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="3">
+				<s:Path x="0.296" y="-0.016"
+						data="M 188.204 16.008 C 188.204 24.813 175.448 32.016 159.857 32.016 L 28.347 32.016 C 12.756 32.016 0 24.813 0 16.008 C 0 7.203 12.756 0 28.347 0 L 159.857 0 C 175.448 0 188.204 7.203 188.204 16.008 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:LinearGradient x="94.103" y="32.016" scaleX="32.0156" rotation="270">
+							<s:GradientEntry ratio="0" color="#3F55A2"/>
+							<s:GradientEntry ratio="0.50303" color="#929FD0"/>
+							<s:GradientEntry ratio="1" color="#324E9D"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+			<s:Group x="193" y="157" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="4">
+				<s:Path x="0.5" y="-0.016"
+						data="M 188.204 16.008 C 188.204 24.813 175.448 32.016 159.857 32.016 L 28.347 32.016 C 12.756 32.016 0 24.813 0 16.008 C 0 7.203 12.756 0 28.347 0 L 159.857 0 C 175.448 0 188.204 7.203 188.204 16.008 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:LinearGradient x="94.102" y="32.016" scaleX="32.0156" rotation="270">
+							<s:GradientEntry ratio="0" color="#3F55A2"/>
+							<s:GradientEntry ratio="0.50303" color="#929FD0"/>
+							<s:GradientEntry ratio="1" color="#324E9D"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+			<s:Group x="386" y="157" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="5">
+				<s:Path x="0.262" y="-0.016"
+						data="M 188.204 16.008 C 188.204 24.813 175.448 32.016 159.857 32.016 L 28.347 32.016 C 12.756 32.016 0 24.813 0 16.008 C 0 7.203 12.756 0 28.347 0 L 159.857 0 C 175.448 0 188.204 7.203 188.204 16.008 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:LinearGradient x="94.102" y="32.016" scaleX="32.0156" rotation="270">
+							<s:GradientEntry ratio="0" color="#3F55A2"/>
+							<s:GradientEntry ratio="0.50303" color="#929FD0"/>
+							<s:GradientEntry ratio="1" color="#324E9D"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+			<s:Group x="578" y="157" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="13">
+				<s:Path x="0.446" y="-0.016"
+						data="M 188.204 16.008 C 188.204 24.813 175.448 32.016 159.857 32.016 L 28.347 32.016 C 12.756 32.016 0 24.813 0 16.008 C 0 7.203 12.756 0 28.347 0 L 159.857 0 C 175.448 0 188.204 7.203 188.204 16.008 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:LinearGradient x="94.103" y="32.016" scaleX="32.0156" rotation="270">
+							<s:GradientEntry ratio="0" color="#3F55A2"/>
+							<s:GradientEntry ratio="0.50303" color="#929FD0"/>
+							<s:GradientEntry ratio="1" color="#324E9D"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+				<s:Group x="23" y="644" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="28">
+				<s:Path x="0.32" y="0.5"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#111950"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+				<s:Group x="176" y="645" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="31">
+				<s:Path x="0.412" y="0"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#002B7F"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+			
+			<s:Group x="23" y="511">
+				<s:Group x="153" y="1" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="34">
+					<s:Path x="0.412" y="0"
+							data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+							winding="nonZero">
+						<s:fill>
+							<s:SolidColor color="#002B7F"/>
+						</s:fill>
+					</s:Path>
+				</s:Group>
+				<s:RichText d:id="4" d:userLabel="Relevance" x="108" y="0" ai:aa="2" color="#000000"
+							columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" kerning="on"
+							lineHeight="28.8" tabStops="S36 S72 " text="Relevance" flm:variant="1"
+							whiteSpaceCollapse="preserve"/>
+				
+			</s:Group>
+				<s:Group x="347" y="644" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="39">
+				<s:Path x="0.419" y="0.75"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#135529"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+			<s:Group x="500" y="645" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="42">
+				<s:Path x="0.511" y="0.25"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#238332"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+			<s:Group d:id="43" x="354" y="510" alpha="0.22" flm:isolated="false"
+					 flm:knockout="false">
+				<s:Path x="0.419" y="0.75"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#135529"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+			<s:Group x="507" y="511" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="44">
+				<s:Path x="0.511" y="0.25"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#238332"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+				<s:Group x="844" y="643" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="48">
+				<s:Path x="0.185" y="0.5"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#EC411A"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+			<s:Group x="997" y="644" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="51">
+				<s:Path x="0.276" y="0"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#FE9D2A"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+			<s:Group x="844" y="510">
+				<s:Group d:id="52" x="0" y="0" alpha="0.22" flm:isolated="false"
+						 flm:knockout="false">
+					<s:Path x="0.185" y="0.5"
+							data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+							winding="nonZero">
+						<s:fill>
+							<s:SolidColor color="#EC411A"/>
+						</s:fill>
+					</s:Path>
+				</s:Group>
+				<s:Group x="153" y="1" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="53">
+					<s:Path x="0.277" y="0"
+							data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+							winding="nonZero">
+						<s:fill>
+							<s:SolidColor color="#FE9D2A"/>
+						</s:fill>
+					</s:Path>
+				</s:Group>
+				<s:RichText ai:aa="2" color="#000000" columnCount="1" fontFamily="Myriad Pro Cond" fontSize="24" d:id="54" kerning="on" tabStops="S36 S72" text="Subjectivity" d:userLabel="Subjectivity" flm:variant="20" whiteSpaceCollapse="preserve" x="103" y="2"/>
+			</s:Group>
+			<s:Group x="673" y="644" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="39">
+				<s:Path x="0.419" y="0.75"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#135529"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+		
+			<s:Group x="671" y="511" alpha="0.22" flm:isolated="false" flm:knockout="false" d:id="39">
+				<s:Path x="0.419" y="0.75"
+						data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+						winding="nonZero">
+					<s:fill>
+						<s:SolidColor color="#135529"/>
+					</s:fill>
+				</s:Path>
+			</s:Group>
+		</fx:DesignLayer>
+		<s:Group d:id="33" x="23" y="512" alpha="0.22" flm:isolated="false"
+				 flm:knockout="false">
+			<s:Path x="0.32" y="0.5"
+					data="M 136.901 12 C 136.901 18.6 124.146 24 108.555 24 L 28.347 24 C 12.756 24 0 18.6 0 12 C 0 5.4 12.756 0 28.347 0 L 108.555 0 C 124.146 0 136.901 5.4 136.901 12 Z"
+					winding="nonZero">
+				<s:fill>
+					<s:SolidColor color="#111950"/>
+				</s:fill>
+			</s:Path>
+		</s:Group>
+		<s:Label x="129" y="561" text="1"/>
+		<s:Label x="290" y="560" text="2"/>
+		<s:Label x="457" y="560" text="3"/>
+		<s:Label x="611" y="560" text="4"/>
+		<s:Label x="781" y="561" text="5"/>
+		<s:Label x="954" y="561" text="6"/>
+		<s:Label x="1108" y="561" text="7"/>
+	</s:Group>
+		<fx:Private></fx:Private>
+	
+</s:Group>

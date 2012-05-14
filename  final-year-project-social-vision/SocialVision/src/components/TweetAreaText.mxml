@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:d="http://ns.adobe.com/fxg/2008/dt"
+		xmlns:flm="http://ns.adobe.com/flame/2008"
+		width="766" height="266">
+	<fx:Metadata>[HostComponent("spark.components.TextInput")]</fx:Metadata>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+		<s:State name="normalWithPrompt"/>
+		<s:State name="disabledWithPrompt"/>
+	</s:states>
+	<s:Group x="0" y="0">
+		<s:Group d:id="20" x="0" y="0" alpha="0.22" flm:isolated="false" flm:knockout="false">
+			<s:Rect x="0" y="0" width="766" height="266" radiusX="28.2297" radiusY="28.2297">
+				<s:fill>
+					<s:LinearGradient x="383" y="266" scaleX="266" rotation="270">
+						<s:GradientEntry ratio="0" color="#3F55A2"/>
+						<s:GradientEntry ratio="0.50303" color="#929FD0"/>
+						<s:GradientEntry ratio="1" color="#324E9D"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		<s:Rect x="25" y="24" alpha="0.85" width="713" height="223">
+			<s:fill>
+				<s:SolidColor color="#FFFFFF"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	<s:RichText id="promptDisplay" includeIn="disabledWithPrompt,normalWithPrompt" x="5" y="5" fontFamily="Arial"/>
+	<s:RichEditableText id="textDisplay" x="5" y="5" width="756" heightInLines="1"
+						x.normal="24" y.normal="54" width.normal="714" height.normal="160"
+						fontSize.normal="28"
+						tabStops.normal="S0 S50 S100 S150 S200 S250 S300 S350 S400 S450 S500 S550 S600 S650 S700"
+						textAlign.normal="center" fontFamily="Arial"/>
+</s:Skin>
