@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
+  <services>
+    <service name="DBFinancialWebServices">
+      <implementation-class>com.data.webservices.DBFinancialWebServices</implementation-class>
+    </service>
+    <service name="DBTopsyWebServices">
+      <implementation-class>com.data.webservices.DBTopsyWebServices</implementation-class>
+    </service>
+    <service name="DBPythonScriptsWebServices">
+      <implementation-class>com.data.webservices.DBPythonScriptsWebServices</implementation-class>
+    </service>
+    <service name="DBMachineLearningWebServices">
+      <implementation-class>com.data.webservices.DBMachineLearningWebServices</implementation-class>
+    </service>
+    <service name="DataAnalysisWebServices">
+      <implementation-class>com.webservices.DataAnalysisWebServices</implementation-class>
+    </service>
+    <service name="PythonScriptsWebServices">
+      <implementation-class>com.webservices.PythonScriptsWebServices</implementation-class>
+    </service>
+    <service name="DBTwitterWebServices">
+      <implementation-class>com.data.webservices.DBTwitterWebServices</implementation-class>
+    </service>
+    <service name="DBPredictionWebServices">
+      <implementation-class>com.data.webservices.DBPredictionWebServices</implementation-class>
+    </service>
+  </services>
+  <clients/>
+</jax-ws>
