@@ -1,0 +1,1929 @@
+
+<model xmlns="http://ns.adobe.com/Fiber/1.0">
+  <annotation name="ActionScriptGeneration">
+    <item name="FullyQualifyReferences">true</item>
+  </annotation>
+  <service name="DBFinancialWebServices">
+    <annotation name="ActionScriptGeneration">
+      <item name="WSDL-service">DBFinancialWebServices</item>
+      <item name="ServiceType">WebService</item>
+      <item name="WSDL">http://localhost:8080/SocialVision/DBFinancialWebServices?wsdl</item>
+      <item name="Package">services.dbfinancialwebservices</item>
+      <item name="WSDL-port">DBFinancialWebServicesPort</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">WebService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="WSDL-endpoint">http://localhost:8080/SocialVision/DBFinancialWebServices</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getRealTimeFinancialData" return-type="FinancialHourlyDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getRealTimeFinancialData">http://webservices.data.com/,getRealTimeFinancialData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string</item>
+        <item name="returnType">FinancialHourlyDataItem</item>
+      </annotation>
+      <parameter name="name" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+      <parameter name="interval" type="string"/>
+    </function>
+    <function name="removeFinancialSearchTerm" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="removeFinancialSearchTerm">http://webservices.data.com/,removeFinancialSearchTerm</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+      </annotation>
+      <parameter name="name" type="string"/>
+    </function>
+    <function name="getFinancialSearchTerm" return-type="ApiFinanceSearchesItem">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getFinancialSearchTerm">http://webservices.data.com/,getFinancialSearchTerm</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+        <item name="returnType">ApiFinanceSearchesItem</item>
+      </annotation>
+      <parameter name="asset_name" type="string"/>
+    </function>
+    <function name="getHistoricalFinancialData" return-type="FinancialDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getHistoricalFinancialData">http://webservices.data.com/,getHistoricalFinancialData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+        <item name="returnType">FinancialDataItem</item>
+      </annotation>
+      <parameter name="name" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+    </function>
+    <function name="getMinutelyFinancialData" return-type="FinancialHourlyDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getMinutelyFinancialData">http://webservices.data.com/,getMinutelyFinancialData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+        <item name="returnType">FinancialHourlyDataItem</item>
+      </annotation>
+      <parameter name="name" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+    </function>
+    <function name="getAllFinancialSearchTerms" return-type="ApiFinanceSearchesItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getAllFinancialSearchTerms">http://webservices.data.com/,getAllFinancialSearchTerms</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">ApiFinanceSearchesItem</item>
+      </annotation>
+    </function>
+    <function name="getHourlyFinancialData" return-type="FinancialHourlyDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getHourlyFinancialData">http://webservices.data.com/,getHourlyFinancialData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+        <item name="returnType">FinancialHourlyDataItem</item>
+      </annotation>
+      <parameter name="name" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+    </function>
+    <function name="insertFinancialSearchTerm" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="insertFinancialSearchTerm">http://webservices.data.com/,insertFinancialSearchTerm</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string</item>
+      </annotation>
+      <parameter name="name" type="string"/>
+      <parameter name="symbol" type="string"/>
+      <parameter name="market" type="string"/>
+      <parameter name="most_current_date" type="string"/>
+    </function>
+  </service>
+  <entity name="FinancialDataItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">FinancialDataItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBFinancialWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="name" type="string"/>
+    <property name="symbol" type="string"/>
+    <property name="market" type="string"/>
+    <property name="_date" type="date"/>
+    <property name="open" type="double"/>
+    <property name="high" type="double"/>
+    <property name="low" type="double"/>
+    <property name="close" type="double"/>
+    <property name="volume" type="double"/>
+    <property name="adj_close" type="double"/>
+    <property name="price_change_value" type="double"/>
+    <property name="price_change_percentage" type="double"/>
+    <property name="price_change_text" type="string"/>
+  </entity>
+  <entity name="ApiFinanceSearchesItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ApiFinanceSearchesItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBFinancialWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idyahoosearches" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="most_current_date" type="date"/>
+    <property name="symbol" type="string"/>
+    <property name="market" type="string"/>
+    <property name="last_completed" type="date"/>
+    <property name="call_count" type="integer"/>
+  </entity>
+  <entity name="FinancialHourlyDataItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">FinancialHourlyDataItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBFinancialWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idcurrent_table" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="date_time" type="date"/>
+    <property name="symbol" type="string"/>
+    <property name="market" type="string"/>
+    <property name="price" type="double"/>
+    <property name="volume" type="double"/>
+    <property name="avg_daily_volume" type="double"/>
+    <property name="market_cap" type="string"/>
+    <property name="book_value" type="double"/>
+    <property name="ebitda" type="string"/>
+    <property name="dividend_per_share" type="double"/>
+    <property name="dividend_yield" type="double"/>
+    <property name="earnings_per_share" type="double"/>
+    <property name="year_week_high" type="double"/>
+    <property name="year_week_low" type="double"/>
+    <property name="fifty_day_moving_avg" type="double"/>
+    <property name="two_hundred_day_moving_avg" type="double"/>
+    <property name="price_earnings_ratio" type="double"/>
+    <property name="price_earnings_growth_ratio" type="double"/>
+    <property name="price_sales_ratio" type="double"/>
+    <property name="price_book_ratio" type="double"/>
+    <property name="short_ratio" type="double"/>
+    <property name="previous_time_date" type="date"/>
+    <property name="previous_price" type="double"/>
+    <property name="price_change_value" type="double"/>
+    <property name="price_change_percentage" type="double"/>
+    <property name="price_change_text" type="string"/>
+    <property name="hourly_previous_time_date" type="date"/>
+    <property name="hourly_previous_price" type="double"/>
+    <property name="hourly_price_change_value" type="double"/>
+    <property name="hourly_price_change_percentage" type="double"/>
+    <property name="hourly_price_change_text" type="string"/>
+  </entity>
+  <service name="DBTopsyWebServices">
+    <annotation name="ActionScriptGeneration">
+      <item name="WSDL-service">DBTopsyWebServices</item>
+      <item name="ServiceType">WebService</item>
+      <item name="WSDL">http://localhost:8080/SocialVision/DBTopsyWebServices?wsdl</item>
+      <item name="Package">services.dbtopsywebservices</item>
+      <item name="WSDL-port">DBTopsyWebServicesPort</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">WebService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="WSDL-endpoint">http://localhost:8080/SocialVision/DBTopsyWebServices</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getAllTopsySearchTasks" return-type="ApiTopsySearchesItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getAllTopsySearchTasks">http://webservices.data.com/,getAllTopsySearchTasks</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">ApiTopsySearchesItem</item>
+      </annotation>
+    </function>
+    <function name="getTopsyProcessedData" return-type="TopsyProcessedDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getTopsyProcessedData">http://webservices.data.com/,getTopsyProcessedData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+        <item name="returnType">TopsyProcessedDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+    </function>
+    <function name="getTopsyCountryData" return-type="TopsyCountryDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getTopsyCountryData">http://webservices.data.com/,getTopsyCountryData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,integer</item>
+        <item name="returnType">TopsyCountryDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="date_string" type="string"/>
+      <parameter name="limit" type="integer"/>
+    </function>
+    <function name="getSpecificProcessedData" return-type="TopsyProcessedSimpleDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getSpecificProcessedData">http://webservices.data.com/,getSpecificProcessedData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string</item>
+        <item name="returnType">TopsyProcessedSimpleDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="topsy_field" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+    </function>
+    <function name="getTopsyCumulativeProcessedData" return-type="TopsyProcessedDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getTopsyCumulativeProcessedData">http://webservices.data.com/,getTopsyCumulativeProcessedData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,boolean,boolean,boolean</item>
+        <item name="returnType">TopsyProcessedDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+      <parameter name="useHistogtamValues" type="boolean"/>
+      <parameter name="showPercentages" type="boolean"/>
+      <parameter name="incrementFields" type="boolean"/>
+    </function>
+    <function name="getQueryTopsyMiniTasks" return-type="ApiTopsyMiniTasksItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getQueryTopsyMiniTasks">http://webservices.data.com/,getQueryTopsyMiniTasks</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string</item>
+        <item name="returnType">ApiTopsyMiniTasksItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="completed" type="string"/>
+    </function>
+    <function name="getTopsyHistogramData" return-type="TopsyHistogramDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getTopsyHistogramData">http://webservices.data.com/,getTopsyHistogramData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+        <item name="returnType">TopsyHistogramDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+    </function>
+    <function name="getTopsyCompanyData" return-type="TopsySocialDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getTopsyCompanyData">http://webservices.data.com/,getTopsyCompanyData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,integer</item>
+        <item name="returnType">TopsySocialDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="date_string" type="string"/>
+      <parameter name="limit" type="integer"/>
+    </function>
+    <function name="insertTopsySearchTasks" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="insertTopsySearchTasks">http://webservices.data.com/,insertTopsySearchTasks</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,integer,integer</item>
+      </annotation>
+      <parameter name="name" type="string"/>
+      <parameter name="query" type="string"/>
+      <parameter name="results_per_page" type="integer"/>
+      <parameter name="max_no_pages" type="integer"/>
+    </function>
+    <function name="getAllTopsyMiniTasks" return-type="ApiTopsyMiniTasksItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getAllTopsyMiniTasks">http://webservices.data.com/,getAllTopsyMiniTasks</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+        <item name="returnType">ApiTopsyMiniTasksItem</item>
+      </annotation>
+      <parameter name="completed" type="string"/>
+    </function>
+    <function name="getTopsyProcessedDataForOneDay" return-type="TopsyProcessedDataItem">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getTopsyProcessedDataForOneDay">http://webservices.data.com/,getTopsyProcessedDataForOneDay</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string</item>
+        <item name="returnType">TopsyProcessedDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="date_string" type="string"/>
+    </function>
+    <function name="getFilteredTopsyCompanyData" return-type="TopsySocialDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getFilteredTopsyCompanyData">http://webservices.data.com/,getFilteredTopsyCompanyData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,integer</item>
+        <item name="returnType">TopsySocialDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="date_string" type="string"/>
+      <parameter name="filter" type="string"/>
+      <parameter name="limit" type="integer"/>
+    </function>
+    <function name="removeTopsySearchTasks" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="removeTopsySearchTasks">http://webservices.data.com/,removeTopsySearchTasks</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+    </function>
+  </service>
+  <entity name="TopsyHistogramDataItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">TopsyHistogramDataItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTopsyWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idhistorical_count" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="query" type="string"/>
+    <property name="_date" type="date"/>
+    <property name="count" type="integer"/>
+  </entity>
+  <entity name="ApiTopsyMiniTasksItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ApiTopsyMiniTasksItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTopsyWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idtopsy_tasks" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="query" type="string"/>
+    <property name="task_type" type="string"/>
+    <property name="priority" type="string"/>
+    <property name="type" type="string"/>
+    <property name="query_start_date" type="date"/>
+    <property name="completed" type="string"/>
+    <property name="data_group" type="string"/>
+    <property name="completed_date" type="date"/>
+    <property name="from_date" type="date"/>
+    <property name="to_date" type="date"/>
+    <property name="results_per_page" type="integer"/>
+    <property name="max_no_pages" type="integer"/>
+  </entity>
+  <entity name="TopsyProcessedDataItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">TopsyProcessedDataItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTopsyWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idtopsy_day_data" type="integer"/>
+    <property name="_date" type="date"/>
+    <property name="name" type="string"/>
+    <property name="query" type="string"/>
+    <property name="data_group" type="string"/>
+    <property name="histogram_total" type="integer"/>
+    <property name="total_results" type="integer"/>
+    <property name="no_tweets_collected" type="integer"/>
+    <property name="most_used_words" type="string"/>
+    <property name="no_english" type="integer"/>
+    <property name="no_not_english" type="integer"/>
+    <property name="no_relevant" type="integer"/>
+    <property name="no_irrelevant" type="integer"/>
+    <property name="no_subjective" type="integer"/>
+    <property name="no_objective" type="integer"/>
+    <property name="no_neutral" type="integer"/>
+    <property name="no_not_neutral" type="integer"/>
+    <property name="no_positive_sentiments" type="integer"/>
+    <property name="no_negative_sentiments" type="integer"/>
+    <property name="no_growth_comments" type="integer"/>
+    <property name="no_recession_comments" type="integer"/>
+    <property name="no_politically_stable_comments" type="integer"/>
+    <property name="no_politically_instable_comments" type="integer"/>
+    <property name="no_Intel_comments" type="integer"/>
+    <property name="no_Samsung_comments" type="integer"/>
+    <property name="no_Imagination_Technologies_comments" type="integer"/>
+    <property name="no_Imgtec_comments" type="integer"/>
+    <property name="no_ARM_comments" type="integer"/>
+    <property name="no_Google_comments" type="integer"/>
+    <property name="no_Apple_comments" type="integer"/>
+    <property name="no_HTC_comments" type="integer"/>
+    <property name="no_Sony_comments" type="integer"/>
+    <property name="no_Blackberry_comments" type="integer"/>
+    <property name="no_Nokia_comments" type="integer"/>
+    <property name="no_Motorola_comments" type="integer"/>
+    <property name="no_LG_comments" type="integer"/>
+    <property name="no_Microsoft_comments" type="integer"/>
+    <property name="no_IBM_comments" type="integer"/>
+    <property name="no_ARM_Holdings_comments" type="integer"/>
+    <property name="no_RIM_comments" type="integer"/>
+  </entity>
+  <entity name="TopsyCountryDataItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">TopsyCountryDataItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTopsyWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idtopsy_table" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="type" type="string"/>
+    <property name="query" type="string"/>
+    <property name="title" type="string"/>
+    <property name="url" type="string"/>
+    <property name="score" type="double"/>
+    <property name="_date" type="date"/>
+    <property name="content" type="string"/>
+    <property name="total_search_results" type="integer"/>
+    <property name="trackback_permalink" type="string"/>
+    <property name="hits" type="integer"/>
+    <property name="trackback_total" type="integer"/>
+    <property name="topsy_trackback_url" type="string"/>
+    <property name="highlight" type="string"/>
+    <property name="is_english" type="string"/>
+    <property name="english_prob" type="double"/>
+    <property name="not_english_prob" type="double"/>
+    <property name="relevant" type="string"/>
+    <property name="relevant_prob" type="double"/>
+    <property name="irrelevant_prob" type="double"/>
+    <property name="is_neutral" type="string"/>
+    <property name="neutral_prob" type="double"/>
+    <property name="not_neutral_prob" type="double"/>
+    <property name="subjectivity" type="string"/>
+    <property name="subjective_prob" type="double"/>
+    <property name="objective_prob" type="double"/>
+    <property name="sentiment" type="string"/>
+    <property name="sentiment_pos_prob" type="double"/>
+    <property name="sentiment_neg_prob" type="double"/>
+    <property name="growth_recession" type="string"/>
+    <property name="growth_prob" type="double"/>
+    <property name="recession_prob" type="double"/>
+    <property name="political_stability" type="string"/>
+    <property name="politically_stable_prob" type="double"/>
+    <property name="politically_instable_prob" type="double"/>
+  </entity>
+  <entity name="TopsyProcessedSimpleDataItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">TopsyProcessedSimpleDataItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTopsyWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="name" type="string"/>
+    <property name="_date" type="date"/>
+    <property name="Topsy_value" type="double"/>
+  </entity>
+  <entity name="TopsySocialDataItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">TopsySocialDataItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTopsyWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idtopsy_table" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="type" type="string"/>
+    <property name="query" type="string"/>
+    <property name="title" type="string"/>
+    <property name="url" type="string"/>
+    <property name="score" type="double"/>
+    <property name="_date" type="date"/>
+    <property name="content" type="string"/>
+    <property name="total_search_results" type="integer"/>
+    <property name="trackback_permalink" type="string"/>
+    <property name="hits" type="integer"/>
+    <property name="trackback_total" type="integer"/>
+    <property name="topsy_trackback_url" type="string"/>
+    <property name="highlight" type="string"/>
+    <property name="is_english" type="string"/>
+    <property name="english_prob" type="double"/>
+    <property name="not_english_prob" type="double"/>
+    <property name="subjectivity" type="string"/>
+    <property name="subjective_prob" type="double"/>
+    <property name="objective_prob" type="double"/>
+    <property name="relevant" type="string"/>
+    <property name="relevant_prob" type="double"/>
+    <property name="irrelevant_prob" type="double"/>
+    <property name="is_neutral" type="string"/>
+    <property name="neutral_prob" type="double"/>
+    <property name="not_neutral_prob" type="double"/>
+    <property name="sentiment" type="string"/>
+    <property name="sentiment_pos_prob" type="double"/>
+    <property name="sentiment_neg_prob" type="double"/>
+    <property name="growth_recession" type="string"/>
+    <property name="growth_prob" type="double"/>
+    <property name="recession_prob" type="double"/>
+    <property name="IntelMention" type="string"/>
+    <property name="SamsungMention" type="string"/>
+    <property name="ImaginationTechMention" type="string"/>
+    <property name="ImgtecMention" type="string"/>
+    <property name="ARMMention" type="string"/>
+    <property name="GoogleMention" type="string"/>
+    <property name="AppleMention" type="string"/>
+    <property name="HTCMention" type="string"/>
+    <property name="SonyMention" type="string"/>
+    <property name="BlackberryMention" type="string"/>
+    <property name="NokiaMention" type="string"/>
+    <property name="MotorolaMention" type="string"/>
+    <property name="LGMention" type="string"/>
+    <property name="MicrosoftMention" type="string"/>
+    <property name="IBMMention" type="string"/>
+    <property name="ARMHoldingsMention" type="string"/>
+    <property name="RIMMention" type="string"/>
+  </entity>
+  <entity name="ApiTopsySearchesItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ApiTopsySearchesItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTopsyWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idtopsysearches" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="query" type="string"/>
+    <property name="type" type="string"/>
+    <property name="last_completed" type="date"/>
+    <property name="most_current_histogram" type="date"/>
+    <property name="overall_start_date" type="date"/>
+    <property name="overall_end_date" type="date"/>
+    <property name="furthest_date_bk" type="date"/>
+    <property name="most_current_date" type="date"/>
+    <property name="day_count" type="integer"/>
+    <property name="results_per_page" type="integer"/>
+    <property name="max_no_pages" type="integer"/>
+    <property name="tasked_impl" type="string"/>
+    <property name="completed" type="string"/>
+    <property name="history_collected" type="string"/>
+    <property name="data_group" type="string"/>
+    <property name="company_count_process_date" type="date"/>
+    <property name="country_count_process_date" type="date"/>
+  </entity>
+  <service name="DataAnalysisWebServices">
+    <annotation name="ActionScriptGeneration">
+      <item name="WSDL-service">DataAnalysisWebServices</item>
+      <item name="ServiceType">WebService</item>
+      <item name="WSDL">http://localhost:8080/SocialVision/DataAnalysisWebServices?wsdl</item>
+      <item name="Package">services.dataanalysiswebservices</item>
+      <item name="WSDL-port">DataAnalysisWebServicesPort</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">WebService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="WSDL-endpoint">http://localhost:8080/SocialVision/DataAnalysisWebServices</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="calculateCorrelationTwitterVsFinance" return-type="CorrelationXYData">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="calculateCorrelationTwitterVsFinance">http://webservices.com/,calculateCorrelationTwitterVsFinance</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string,string,integer,string,integer,double,string,integer,string</item>
+        <item name="returnType">CorrelationXYData</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="twitter_field" type="string"/>
+      <parameter name="finacial_field" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+      <parameter name="day_delta" type="integer"/>
+      <parameter name="moving_average_type" type="string"/>
+      <parameter name="moving_average_window_size" type="integer"/>
+      <parameter name="moving_average_alpha" type="double"/>
+      <parameter name="correlation_type" type="string"/>
+      <parameter name="moving_correlation_window_size" type="integer"/>
+      <parameter name="time_interval" type="string"/>
+    </function>
+    <function name="calculateCorrelationFinanceVsFinance" return-type="CorrelationXYData">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="calculateCorrelationFinanceVsFinance">http://webservices.com/,calculateCorrelationFinanceVsFinance</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string,string,string,string,string,integer,double,string,integer</item>
+        <item name="returnType">CorrelationXYData</item>
+      </annotation>
+      <parameter name="company_one_name" type="string"/>
+      <parameter name="company_two_name" type="string"/>
+      <parameter name="company_one_field" type="string"/>
+      <parameter name="company_two_field" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+      <parameter name="interval" type="string"/>
+      <parameter name="moving_average_type" type="string"/>
+      <parameter name="moving_average_window_size" type="integer"/>
+      <parameter name="moving_average_alpha" type="double"/>
+      <parameter name="correlation_type" type="string"/>
+      <parameter name="moving_correlation_window_size" type="integer"/>
+    </function>
+    <function name="calculateCorrelationTopsyVsFinance" return-type="CorrelationXYData">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="calculateCorrelationTopsyVsFinance">http://webservices.com/,calculateCorrelationTopsyVsFinance</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string,string,integer,string,integer,double,string,integer</item>
+        <item name="returnType">CorrelationXYData</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="topsy_field" type="string"/>
+      <parameter name="finacial_field" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+      <parameter name="day_delta" type="integer"/>
+      <parameter name="moving_average_type" type="string"/>
+      <parameter name="moving_average_window_size" type="integer"/>
+      <parameter name="moving_average_alpha" type="double"/>
+      <parameter name="correlation_type" type="string"/>
+      <parameter name="moving_correlation_window_size" type="integer"/>
+    </function>
+  </service>
+  <entity name="CorrelationXYData">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">CorrelationXYData</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DataAnalysisWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="name" type="string"/>
+    <property name="from_date" type="string"/>
+    <property name="to_date" type="string"/>
+    <property name="social_field" type="string"/>
+    <property name="financial_field" type="string"/>
+    <property name="day_delta" type="integer"/>
+    <property name="correlationXYItems" type="CorrelationXYItem[]"/>
+    <property name="kendelCorrelationCoeff" type="double"/>
+    <property name="kendelSignificanceProbability" type="double"/>
+    <property name="kendelTheilsStatisitc" type="integer"/>
+    <property name="linearCorrelationCoeff" type="double"/>
+    <property name="linearConfidenceCoeff" type="double"/>
+    <property name="linearSignificanceProbability" type="double"/>
+    <property name="linearLowerConfLimit" type="double"/>
+    <property name="linearHigherConfLimit" type="double"/>
+    <property name="spearmanCorrelationCoeff" type="double"/>
+    <property name="spearmanSumOfSqDiff" type="double"/>
+    <property name="spearmanSignificanceProbability" type="double"/>
+    <property name="pearsonPMCorrelationCoeff" type="double"/>
+    <property name="pearsonInterceptionTerma" type="double"/>
+    <property name="pearsonSlopeTermB" type="double"/>
+  </entity>
+  <entity name="CorrelationXYItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">CorrelationXYItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DataAnalysisWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="x_value" type="double"/>
+    <property name="x_date" type="date"/>
+    <property name="y_value" type="double"/>
+    <property name="y_date" type="date"/>
+    <property name="correlation_value" type="double"/>
+  </entity>
+  <service name="DBMachineLearningWebServices">
+    <annotation name="ActionScriptGeneration">
+      <item name="WSDL-service">DBMachineLearningWebServices</item>
+      <item name="ServiceType">WebService</item>
+      <item name="WSDL">http://localhost:8080/SocialVision/DBMachineLearningWebServices?wsdl</item>
+      <item name="Package">services.dbmachinelearningwebservices</item>
+      <item name="WSDL-port">DBMachineLearningWebServicesPort</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">WebService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="WSDL-endpoint">http://localhost:8080/SocialVision/DBMachineLearningWebServices</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getTotalsForMachineLearningCountryData" return-type="SentimentRow">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getTotalsForMachineLearningCountryData">http://webservices.data.com/,getTotalsForMachineLearningCountryData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">SentimentRow</item>
+      </annotation>
+    </function>
+    <function name="getAllUnclassifiedCompanyTweets" return-type="MachineLearningItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getAllUnclassifiedCompanyTweets">http://webservices.data.com/,getAllUnclassifiedCompanyTweets</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">MachineLearningItem</item>
+      </annotation>
+    </function>
+    <function name="updateUnclassifiedCompanyTweet" return-type="string">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="updateUnclassifiedCompanyTweet">http://webservices.data.com/,updateUnclassifiedCompanyTweet</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">integer,string,string,string,string,string,string,string,string,string</item>
+        <item name="returnType">string</item>
+      </annotation>
+      <parameter name="tweet_id" type="integer"/>
+      <parameter name="content" type="string"/>
+      <parameter name="sentiment_relevance" type="string"/>
+      <parameter name="is_english" type="string"/>
+      <parameter name="relevant" type="string"/>
+      <parameter name="subjectivity" type="string"/>
+      <parameter name="is_neutral" type="string"/>
+      <parameter name="sentiment" type="string"/>
+      <parameter name="growth_recession" type="string"/>
+      <parameter name="political_stability" type="string"/>
+    </function>
+    <function name="getAllClassifiedCompanyTweets" return-type="MachineLearningItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getAllClassifiedCompanyTweets">http://webservices.data.com/,getAllClassifiedCompanyTweets</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">MachineLearningItem</item>
+      </annotation>
+    </function>
+    <function name="updateUnclassifiedCountryTweet" return-type="string">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="updateUnclassifiedCountryTweet">http://webservices.data.com/,updateUnclassifiedCountryTweet</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">integer,string,string,string,string,string,string,string,string,string</item>
+        <item name="returnType">string</item>
+      </annotation>
+      <parameter name="tweet_id" type="integer"/>
+      <parameter name="content" type="string"/>
+      <parameter name="sentiment_relevance" type="string"/>
+      <parameter name="is_english" type="string"/>
+      <parameter name="relevant" type="string"/>
+      <parameter name="subjectivity" type="string"/>
+      <parameter name="is_neutral" type="string"/>
+      <parameter name="sentiment" type="string"/>
+      <parameter name="growth_recession" type="string"/>
+      <parameter name="political_stability" type="string"/>
+    </function>
+    <function name="getAllClassifiedCountryTweets" return-type="MachineLearningItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getAllClassifiedCountryTweets">http://webservices.data.com/,getAllClassifiedCountryTweets</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">MachineLearningItem</item>
+      </annotation>
+    </function>
+    <function name="getTotalsForMachineLearningCompanyData" return-type="SentimentRow">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getTotalsForMachineLearningCompanyData">http://webservices.data.com/,getTotalsForMachineLearningCompanyData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">SentimentRow</item>
+      </annotation>
+    </function>
+    <function name="getAllUnclassifiedCountryTweets" return-type="MachineLearningItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getAllUnclassifiedCountryTweets">http://webservices.data.com/,getAllUnclassifiedCountryTweets</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">MachineLearningItem</item>
+      </annotation>
+    </function>
+  </service>
+  <entity name="SentimentRow">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">SentimentRow</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBMachineLearningWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="numOfNotEnglish" type="integer"/>
+    <property name="numOfEnglish" type="integer"/>
+    <property name="numOfNotRelevant" type="integer"/>
+    <property name="numOfRelevant" type="integer"/>
+    <property name="numOfNeutral" type="integer"/>
+    <property name="numOfPositive" type="integer"/>
+    <property name="numOfNegative" type="integer"/>
+    <property name="numOfRecession" type="integer"/>
+    <property name="numOfGrowth" type="integer"/>
+    <property name="numOfPoliticallyStable" type="integer"/>
+    <property name="numOfPoliticallyInStable" type="integer"/>
+    <property name="totalTweetsClassified" type="integer"/>
+  </entity>
+  <entity name="MachineLearningItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">MachineLearningItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBMachineLearningWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="tweet_id" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="tweet_source" type="string"/>
+    <property name="data_group" type="string"/>
+    <property name="is_classified" type="string"/>
+    <property name="content" type="string"/>
+    <property name="sentiment_relevance" type="string"/>
+    <property name="is_english" type="string"/>
+    <property name="relevant" type="string"/>
+    <property name="subjectivity" type="string"/>
+    <property name="is_neutral" type="string"/>
+    <property name="sentiment" type="string"/>
+    <property name="growth_recession" type="string"/>
+    <property name="political_stability" type="string"/>
+  </entity>
+  <service name="DBTwitterWebServices">
+    <annotation name="ActionScriptGeneration">
+      <item name="WSDL-service">DBTwitterWebServices</item>
+      <item name="ServiceType">WebService</item>
+      <item name="WSDL">http://localhost:8080/SocialVision/DBTwitterWebServices?wsdl</item>
+      <item name="Package">services.dbtwitterwebservices</item>
+      <item name="WSDL-port">DBTwitterWebServicesPort</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">WebService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="WSDL-endpoint">http://localhost:8080/SocialVision/DBTwitterWebServices</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getSpecificTwitterProcessedData" return-type="TwitterRealTimeProcessedSimpleDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getSpecificTwitterProcessedData">http://webservices.data.com/,getSpecificTwitterProcessedData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string,string</item>
+        <item name="returnType">TwitterRealTimeProcessedSimpleDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="twitter_field" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+      <parameter name="time_period" type="string"/>
+    </function>
+    <function name="getTweetsFromPeriod" return-type="TwitterRealTimeItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getTweetsFromPeriod">http://webservices.data.com/,getTweetsFromPeriod</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,integer</item>
+        <item name="returnType">TwitterRealTimeItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="from_datetime_string" type="string"/>
+      <parameter name="to_datetime_string" type="string"/>
+      <parameter name="tweet_limit" type="integer"/>
+    </function>
+    <function name="getTwitterHourlyProcessedData" return-type="TwitterProcessedDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getTwitterHourlyProcessedData">http://webservices.data.com/,getTwitterHourlyProcessedData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+        <item name="returnType">TwitterProcessedDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+    </function>
+    <function name="getTwitterStreamTerms" return-type="ApiTwitterSearchesItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getTwitterStreamTerms">http://webservices.data.com/,getTwitterStreamTerms</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">ApiTwitterSearchesItem</item>
+      </annotation>
+    </function>
+    <function name="insertTwitterStreamTerm" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="insertTwitterStreamTerm">http://webservices.data.com/,insertTwitterStreamTerm</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,integer,integer</item>
+      </annotation>
+      <parameter name="name" type="string"/>
+      <parameter name="query" type="string"/>
+      <parameter name="num_of_pages" type="integer"/>
+      <parameter name="rpp" type="integer"/>
+    </function>
+    <function name="getTwitterDailyProcessedData" return-type="TwitterProcessedDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getTwitterDailyProcessedData">http://webservices.data.com/,getTwitterDailyProcessedData</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+        <item name="returnType">TwitterProcessedDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+    </function>
+    <function name="getTwitterMinutelyProcessedData" return-type="TwitterProcessedDataItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getTwitterMinutelyProcessedData">http://webservices.data.com/,getTwitterMinutelyProcessedData</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+        <item name="returnType">TwitterProcessedDataItem</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="from_date_string" type="string"/>
+      <parameter name="to_date_string" type="string"/>
+    </function>
+    <function name="removeTwitterStreamTerm" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="removeTwitterStreamTerm">http://webservices.data.com/,removeTwitterStreamTerm</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+    </function>
+    <function name="getTweetCountFromPeriod" return-type="integer">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getTweetCountFromPeriod">http://webservices.data.com/,getTweetCountFromPeriod</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+        <item name="returnType">integer</item>
+      </annotation>
+      <parameter name="query" type="string"/>
+      <parameter name="from_datetime_string" type="string"/>
+      <parameter name="to_datetime_string" type="string"/>
+    </function>
+  </service>
+  <entity name="TwitterRealTimeItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">TwitterRealTimeItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTwitterWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idtwitter_real_time" type="integer"/>
+    <property name="query" type="string"/>
+    <property name="data_group" type="string"/>
+    <property name="inserted_date" type="date"/>
+    <property name="rounded_time" type="date"/>
+    <property name="created_at" type="date"/>
+    <property name="tweet" type="string"/>
+    <property name="just_text" type="string"/>
+    <property name="url" type="string"/>
+    <property name="screen_name" type="string"/>
+    <property name="is_english" type="string"/>
+    <property name="english_prob" type="double"/>
+    <property name="not_english_prob" type="double"/>
+    <property name="relevant" type="string"/>
+    <property name="relevant_prob" type="double"/>
+    <property name="irrelevant_prob" type="double"/>
+    <property name="subjectivity" type="string"/>
+    <property name="subjective_prob" type="double"/>
+    <property name="objective_prob" type="double"/>
+    <property name="sentiment" type="string"/>
+    <property name="sentiment_pos_prob" type="double"/>
+    <property name="sentiment_neg_prob" type="double"/>
+    <property name="sentiment_neu_prob" type="double"/>
+    <property name="financial_actual" type="string"/>
+    <property name="financial_prediction" type="string"/>
+    <property name="financial_change" type="double"/>
+    <property name="financial_up_prob" type="double"/>
+    <property name="financial_down_prob" type="double"/>
+    <property name="film_sentiment_overall" type="string"/>
+    <property name="film_sentiment_pos_prob" type="double"/>
+    <property name="film_sentiment_neg_prob" type="double"/>
+    <property name="growth_recession" type="string"/>
+    <property name="growth_prob" type="double"/>
+    <property name="recession_prob" type="double"/>
+    <property name="political_stability" type="string"/>
+    <property name="politically_stable_prob" type="double"/>
+    <property name="politically_instable_prob" type="double"/>
+    <property name="IntelMention" type="string"/>
+    <property name="SamsungMention" type="string"/>
+    <property name="ImaginationTechMention" type="string"/>
+    <property name="ImgtecMention" type="string"/>
+    <property name="ARMMention" type="string"/>
+    <property name="GoogleMention" type="string"/>
+    <property name="AppleMention" type="string"/>
+    <property name="HTCMention" type="string"/>
+    <property name="SonyMention" type="string"/>
+    <property name="BlackberryMention" type="string"/>
+    <property name="NokiaMention" type="string"/>
+    <property name="MotorolaMention" type="string"/>
+    <property name="LGMention" type="string"/>
+    <property name="MicrosoftMention" type="string"/>
+    <property name="IBMMention" type="string"/>
+    <property name="ARMHoldingsMention" type="string"/>
+    <property name="RIMMention" type="string"/>
+  </entity>
+  <entity name="ApiTwitterSearchesItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ApiTwitterSearchesItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTwitterWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="idTwitterSearches" type="integer"/>
+    <property name="local_name" type="string"/>
+    <property name="query" type="string"/>
+    <property name="data_group" type="string"/>
+    <property name="date_created" type="date"/>
+    <property name="stream_hourly_count" type="integer"/>
+    <property name="stream_day_count" type="integer"/>
+    <property name="tweet_count_process_date" type="date"/>
+    <property name="tweet_is_english_pocess_date" type="date"/>
+    <property name="start_time" type="date"/>
+    <property name="last_completed" type="date"/>
+    <property name="number_calls" type="integer"/>
+    <property name="error_message" type="string"/>
+    <property name="geo_latitude" type="string"/>
+    <property name="geo_longitude" type="string"/>
+    <property name="geo_radius_miles" type="string"/>
+    <property name="language" type="string"/>
+    <property name="num_of_pages" type="integer"/>
+    <property name="rpp" type="integer"/>
+    <property name="result_type" type="string"/>
+  </entity>
+  <entity name="TwitterProcessedDataItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">TwitterProcessedDataItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTwitterWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="id_twitter_processed" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="query" type="string"/>
+    <property name="data_group" type="string"/>
+    <property name="_date" type="date"/>
+    <property name="no_tweets_collected" type="integer"/>
+    <property name="tweet_rate" type="double"/>
+    <property name="is_quarter_hour" type="string"/>
+    <property name="is_hour" type="string"/>
+    <property name="is_day" type="string"/>
+    <property name="most_used_words" type="string"/>
+    <property name="no_english" type="integer"/>
+    <property name="no_not_english" type="integer"/>
+    <property name="no_relevant" type="integer"/>
+    <property name="no_irrelevant" type="integer"/>
+    <property name="no_neutral" type="integer"/>
+    <property name="no_not_neutral" type="integer"/>
+    <property name="no_subjective" type="integer"/>
+    <property name="no_objective" type="integer"/>
+    <property name="no_positive_sentiments" type="integer"/>
+    <property name="no_negative_sentiments" type="integer"/>
+    <property name="no_growth_comments" type="integer"/>
+    <property name="no_recession_comments" type="integer"/>
+    <property name="no_politically_stable_comments" type="integer"/>
+    <property name="no_politically_instable_comments" type="integer"/>
+    <property name="no_Intel_comments" type="integer"/>
+    <property name="no_Samsung_comments" type="integer"/>
+    <property name="no_Imagination_Technologies_comments" type="integer"/>
+    <property name="no_Imgtec_comments" type="integer"/>
+    <property name="no_ARM_comments" type="integer"/>
+    <property name="no_Google_comments" type="integer"/>
+    <property name="no_Apple_comments" type="integer"/>
+    <property name="no_HTC_comments" type="integer"/>
+    <property name="no_Sony_comments" type="integer"/>
+    <property name="no_Blackberry_comments" type="integer"/>
+    <property name="no_Nokia_comments" type="integer"/>
+    <property name="no_Motorola_comments" type="integer"/>
+    <property name="no_LG_comments" type="integer"/>
+    <property name="no_Microsoft_comments" type="integer"/>
+    <property name="no_IBM_comments" type="integer"/>
+    <property name="no_ARM_Holdings_comments" type="integer"/>
+    <property name="no_RIM_comments" type="integer"/>
+  </entity>
+  <entity name="TwitterRealTimeProcessedSimpleDataItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">TwitterRealTimeProcessedSimpleDataItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBTwitterWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="name" type="string"/>
+    <property name="_date" type="date"/>
+    <property name="twitter_value" type="double"/>
+  </entity>
+  <service name="DBPythonScriptsWebServices">
+    <annotation name="ActionScriptGeneration">
+      <item name="WSDL-service">DBFinancialWebServices</item>
+      <item name="ServiceType">WebService</item>
+      <item name="WSDL">http://localhost:8080/SocialVision/DBPythonScriptsWebServices?wsdl</item>
+      <item name="Package">services.dbpythonscriptswebservices</item>
+      <item name="WSDL-port">DBPythonScriptsWebServicesPort</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">WebService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="WSDL-endpoint">http://localhost:8080/SocialVision/DBPythonScriptsWebServices</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getAllPythonScriptParameters" return-type="PythonScriptParameter[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getAllPythonScriptParameters">http://webservices.data.com/,getAllPythonScriptParameters</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+        <item name="returnType">PythonScriptParameter</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+    </function>
+    <function name="getPythonScriptStatus" return-type="PythonScriptItem">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getPythonScriptStatus">http://webservices.data.com/,getPythonScriptStatus</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+        <item name="returnType">PythonScriptItem</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+    </function>
+    <function name="updatePythonScriptParameter" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="updatePythonScriptParameter">http://webservices.data.com/,updatePythonScriptParameter</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+      <parameter name="parameter_name" type="string"/>
+      <parameter name="parameter_value" type="string"/>
+    </function>
+    <function name="updateAdvanceClassifierScriptInputs" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="updateAdvanceClassifierScriptInputs">http://webservices.data.com/,updateAdvanceClassifierScriptInputs</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string,string,string,string,string,string,string,string,string,string</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+      <parameter name="use_film_tweets" type="string"/>
+      <parameter name="use_technology_tweets" type="string"/>
+      <parameter name="num_of_film_training_tweets" type="string"/>
+      <parameter name="num_of_film_test_tweets" type="string"/>
+      <parameter name="num_of_tech_training_tweets" type="string"/>
+      <parameter name="num_of_tech_test_tweets" type="string"/>
+      <parameter name="remove_short_words" type="string"/>
+      <parameter name="remove_stop_words" type="string"/>
+      <parameter name="remove_low_info_words" type="string"/>
+      <parameter name="num_of_inf_words" type="string"/>
+      <parameter name="use_bigrams" type="string"/>
+      <parameter name="num_of_most_intersting_features_to_show" type="string"/>
+    </function>
+    <function name="updateBasicClassifierScriptInputs" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="updateBasicClassifierScriptInputs">http://webservices.data.com/,updateBasicClassifierScriptInputs</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string,string,string,string,string,string</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+      <parameter name="remove_short_words" type="string"/>
+      <parameter name="remove_stop_words" type="string"/>
+      <parameter name="remove_low_info_words" type="string"/>
+      <parameter name="num_of_inf_words" type="string"/>
+      <parameter name="use_bigrams" type="string"/>
+      <parameter name="num_of_most_intersting_features_to_show" type="string"/>
+      <parameter name="num_of_training_tweets" type="string"/>
+      <parameter name="num_of_test_tweets" type="string"/>
+    </function>
+    <function name="getAllClassifiersScriptOutputs" return-type="ClassifierScriptOutputs">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getAllClassifiersScriptOutputs">http://webservices.data.com/,getAllClassifiersScriptOutputs</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+        <item name="returnType">ClassifierScriptOutputs</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+    </function>
+    <function name="getPythonScriptParameter" return-type="PythonScriptParameter">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getPythonScriptParameter">http://webservices.data.com/,getPythonScriptParameter</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string</item>
+        <item name="returnType">PythonScriptParameter</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+      <parameter name="parameter_name" type="string"/>
+    </function>
+    <function name="startNLTKTrainClassifier" return-type="string">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="startNLTKTrainClassifier">http://webservices.data.com/,startNLTKTrainClassifier</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+        <item name="returnType">string</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+    </function>
+    <function name="getAllBasicClassifiersScriptInputs" return-type="BasicClassifierScriptInputs">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getAllBasicClassifiersScriptInputs">http://webservices.data.com/,getAllBasicClassifiersScriptInputs</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+        <item name="returnType">BasicClassifierScriptInputs</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+    </function>
+    <function name="getAllPythonScriptStatuses" return-type="PythonScriptItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getAllPythonScriptStatuses">http://webservices.data.com/,getAllPythonScriptStatuses</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">PythonScriptItem</item>
+      </annotation>
+    </function>
+    <function name="getAllAdvanceClassifiersScriptInputs" return-type="AdvanceClassifierScriptInputs">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="getAllAdvanceClassifiersScriptInputs">http://webservices.data.com/,getAllAdvanceClassifiersScriptInputs</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string</item>
+        <item name="returnType">AdvanceClassifierScriptInputs</item>
+      </annotation>
+      <parameter name="script_name" type="string"/>
+    </function>
+  </service>
+  <entity name="BasicClassifierScriptInputs">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">BasicClassifierScriptInputs</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBPythonScriptsWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="remove_short_words" type="string"/>
+    <property name="remove_stop_words" type="string"/>
+    <property name="remove_low_info_words" type="string"/>
+    <property name="num_of_inf_words" type="string"/>
+    <property name="use_bigrams" type="string"/>
+    <property name="num_of_most_intersting_features_to_show" type="string"/>
+    <property name="num_of_training_tweets" type="string"/>
+    <property name="num_of_test_tweets" type="string"/>
+  </entity>
+  <entity name="PythonScriptItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">PythonScriptItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBPythonScriptsWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="id_python_script" type="integer"/>
+    <property name="name" type="string"/>
+    <property name="interval" type="string"/>
+    <property name="status" type="string"/>
+    <property name="progress" type="string"/>
+    <property name="last_run_date" type="date"/>
+    <property name="last_progress_update" type="date"/>
+    <property name="error_message" type="string"/>
+    <property name="error_date_time" type="date"/>
+    <property name="daily_run_count" type="integer"/>
+  </entity>
+  <entity name="AdvanceClassifierScriptInputs">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">AdvanceClassifierScriptInputs</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBPythonScriptsWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="use_film_tweets" type="string"/>
+    <property name="use_technology_tweets" type="string"/>
+    <property name="num_of_film_training_tweets" type="string"/>
+    <property name="num_of_film_test_tweets" type="string"/>
+    <property name="num_of_tech_training_tweets" type="string"/>
+    <property name="num_of_tech_test_tweets" type="string"/>
+    <property name="remove_short_words" type="string"/>
+    <property name="remove_stop_words" type="string"/>
+    <property name="remove_low_info_words" type="string"/>
+    <property name="num_of_inf_words" type="string"/>
+    <property name="use_bigrams" type="string"/>
+    <property name="num_of_most_intersting_features_to_show" type="string"/>
+  </entity>
+  <entity name="ClassifierScriptOutputs">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">ClassifierScriptOutputs</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBPythonScriptsWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="most_informative_features" type="string"/>
+    <property name="accuracy" type="string"/>
+    <property name="one_precision" type="string"/>
+    <property name="one_recall" type="string"/>
+    <property name="two_precision" type="string"/>
+    <property name="two_recall" type="string"/>
+  </entity>
+  <entity name="PythonScriptParameter">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">PythonScriptParameter</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBPythonScriptsWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="id_parameters" type="integer"/>
+    <property name="id_python_script" type="integer"/>
+    <property name="python_script_name" type="string"/>
+    <property name="parameter_name" type="string"/>
+    <property name="parameter_value" type="string"/>
+  </entity>
+  <service name="DBPredictionWebServices">
+    <annotation name="ActionScriptGeneration">
+      <item name="WSDL-service">DBPredictionWebServices</item>
+      <item name="ServiceType">WebService</item>
+      <item name="WSDL">http://localhost:8080/SocialVision/DBPredictionWebServices?wsdl</item>
+      <item name="Package">services.dbpredictionwebservices</item>
+      <item name="WSDL-port">DBPredictionWebServicesPort</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">WebService</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="WSDL-endpoint">http://localhost:8080/SocialVision/DBPredictionWebServices</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getAllFinancialPredictionTaskItems" return-type="FinancialPredictionTask[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getAllFinancialPredictionTaskItems">http://webservices.data.com/,getAllFinancialPredictionTaskItems</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">FinancialPredictionTask</item>
+      </annotation>
+    </function>
+    <function name="getPredictionPerformanceItemsForTask" return-type="FinancialPredictionPerformanceItem[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getPredictionPerformanceItemsForTask">http://webservices.data.com/,getPredictionPerformanceItemsForTask</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">integer</item>
+        <item name="returnType">FinancialPredictionPerformanceItem</item>
+      </annotation>
+      <parameter name="prediction_task_id" type="integer"/>
+    </function>
+    <function name="getFinancialPredictionClassifierNLTKInputs" return-type="FinancialPredictionClassifierNLTKInputs">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getFinancialPredictionClassifierNLTKInputs">http://webservices.data.com/,getFinancialPredictionClassifierNLTKInputs</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">FinancialPredictionClassifierNLTKInputs</item>
+      </annotation>
+    </function>
+    <function name="updateFinancialPredictionClassifierNLTKInputs" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="SOAPAction"></item>
+        <item name="updateFinancialPredictionClassifierNLTKInputs">http://webservices.data.com/,updateFinancialPredictionClassifierNLTKInputs</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParams">string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string</item>
+      </annotation>
+      <parameter name="training_from_date" type="string"/>
+      <parameter name="training_to_date" type="string"/>
+      <parameter name="training_limit" type="string"/>
+      <parameter name="test_from_date" type="string"/>
+      <parameter name="test_to_date" type="string"/>
+      <parameter name="interval_value" type="string"/>
+      <parameter name="tweets_fin_time_delta_value" type="string"/>
+      <parameter name="interval_unit" type="string"/>
+      <parameter name="tweets_fin_time_delta_unit" type="string"/>
+      <parameter name="tweet_source" type="string"/>
+      <parameter name="remove_short_words" type="string"/>
+      <parameter name="remove_stop_words" type="string"/>
+      <parameter name="remove_low_info_words" type="string"/>
+      <parameter name="num_of_inf_words" type="string"/>
+      <parameter name="use_bigrams" type="string"/>
+      <parameter name="remove_non_english" type="string"/>
+      <parameter name="remove_irrelevant" type="string"/>
+      <parameter name="include_subjective" type="string"/>
+      <parameter name="include_objective" type="string"/>
+      <parameter name="company_name" type="string"/>
+    </function>
+    <function name="startNLTKFinancialPredictorScript" return-type="void">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="startNLTKFinancialPredictorScript">http://webservices.data.com/,startNLTKFinancialPredictorScript</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+    </function>
+    <function name="getFinancialPredictionClassifierNLTKOutputs" return-type="FinancialPredictionClassifierNLTKOutputs">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="WSDLName">
+        <item name="getFinancialPredictionClassifierNLTKOutputs">http://webservices.data.com/,getFinancialPredictionClassifierNLTKOutputs</item>
+        <item name="SOAPAction"></item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="returnType">FinancialPredictionClassifierNLTKOutputs</item>
+      </annotation>
+    </function>
+  </service>
+  <entity name="FinancialPredictionClassifierNLTKOutputs">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">FinancialPredictionClassifierNLTKOutputs</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBPredictionWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="down_recall" type="string"/>
+    <property name="up_recall" type="string"/>
+    <property name="up_precision" type="string"/>
+    <property name="down_precision" type="string"/>
+    <property name="accuracy" type="string"/>
+    <property name="most_informative_features" type="string"/>
+    <property name="prediction" type="string"/>
+    <property name="up_prediction_prob" type="string"/>
+    <property name="down_prediction_prob" type="string"/>
+  </entity>
+  <entity name="FinancialPredictionPerformanceItem">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">FinancialPredictionPerformanceItem</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBPredictionWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="prediction_data_item_id" type="integer"/>
+    <property name="prediction_task_id" type="integer"/>
+    <property name="company_name" type="string"/>
+    <property name="predicton_type" type="string"/>
+    <property name="_date" type="date"/>
+    <property name="predicted_from_date" type="date"/>
+    <property name="actual_financial_change_value" type="double"/>
+    <property name="actual_financial_change_percent" type="double"/>
+    <property name="actual_financial_direction" type="string"/>
+    <property name="predicted_financial_direction" type="string"/>
+    <property name="predicted_financial_change" type="double"/>
+    <property name="predicted_financial_up_prob" type="double"/>
+    <property name="predicted_financial_down_prob" type="double"/>
+    <property name="predicted_financial_normalised_prob" type="double"/>
+  </entity>
+  <entity name="FinancialPredictionClassifierNLTKInputs">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">FinancialPredictionClassifierNLTKInputs</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBPredictionWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="training_from_date" type="string"/>
+    <property name="training_to_date" type="string"/>
+    <property name="training_limit" type="string"/>
+    <property name="test_from_date" type="string"/>
+    <property name="test_to_date" type="string"/>
+    <property name="interval_value" type="string"/>
+    <property name="tweets_fin_time_delta_value" type="string"/>
+    <property name="interval_unit" type="string"/>
+    <property name="tweets_fin_time_delta_unit" type="string"/>
+    <property name="tweet_source" type="string"/>
+    <property name="remove_short_words" type="string"/>
+    <property name="remove_stop_words" type="string"/>
+    <property name="remove_low_info_words" type="string"/>
+    <property name="num_of_inf_words" type="string"/>
+    <property name="use_bigrams" type="string"/>
+    <property name="remove_non_english" type="string"/>
+    <property name="remove_irrelevant" type="string"/>
+    <property name="include_subjective" type="string"/>
+    <property name="include_objective" type="string"/>
+    <property name="company_name" type="string"/>
+  </entity>
+  <entity name="FinancialPredictionTask">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">FinancialPredictionTask</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">DBPredictionWebServices</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="prediction_task_id" type="integer"/>
+    <property name="company_name" type="string"/>
+    <property name="date_run" type="date"/>
+    <property name="tweet_source" type="string"/>
+    <property name="prediction_type" type="string"/>
+    <property name="historical_current_type" type="string"/>
+    <property name="tweets_fin_time_delta_value" type="integer"/>
+    <property name="tweets_fin_time_delta_unit" type="string"/>
+    <property name="interval_value" type="integer"/>
+    <property name="interval_unit" type="string"/>
+    <property name="training_limit" type="integer"/>
+    <property name="training_from_date" type="date"/>
+    <property name="training_to_date" type="date"/>
+    <property name="test_from_date" type="date"/>
+    <property name="test_to_date" type="date"/>
+    <property name="remove_short_words" type="string"/>
+    <property name="remove_stop_words" type="string"/>
+    <property name="remove_low_info_words" type="string"/>
+    <property name="num_of_inf_words" type="integer"/>
+    <property name="use_bigrams" type="string"/>
+    <property name="remove_non_english" type="string"/>
+    <property name="remove_irrelevant" type="string"/>
+    <property name="include_subjective" type="string"/>
+    <property name="include_objective" type="string"/>
+    <property name="accuracy" type="string"/>
+    <property name="down_precision" type="double"/>
+    <property name="down_recall" type="double"/>
+    <property name="up_precision" type="double"/>
+    <property name="up_recall" type="double"/>
+    <property name="prediction" type="string"/>
+    <property name="up_prediction_prob" type="double"/>
+    <property name="down_prediction_prob" type="double"/>
+    <property name="num_of_most_intersting_features_to_show" type="integer"/>
+    <property name="most_informative_features" type="string"/>
+  </entity>
+</model>

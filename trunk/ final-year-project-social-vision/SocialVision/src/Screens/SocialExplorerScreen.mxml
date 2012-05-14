@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:fc="http://ns.adobe.com/flashcatalyst/2009"
+			   xmlns:dbtopsywebservices="services.dbtopsywebservices.*"
+			   xmlns:dbfinancialwebservices="services.dbfinancialwebservices.*"
+			   width="1407" height="1117" currentState="normal"
+			   >
+	
+	<fx:Style source="css\SocialExplorer.css"/>
+
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.events.ChartItemEvent;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			
+			import valueObjects.FinancialDataItem;
+			import valueObjects.TopsyProcessedDataItem;
+			import valueObjects.TopsySocialDataItem;
+			
+			private var mostInfluentialTweetLimit:int = 50;
+			[Bindable] public var most_frequently_used_words_strings:String; 
+			[Bindable] public var current_date:String = " "
+			
+			protected function button_clickHandler(event:MouseEvent):void
+			{
+				getTopsyCumulativeProcessedDataResult.token = dBTopsyWebServices.getTopsyCumulativeProcessedData(queryTextInput.text,from_date_stringTextInput.text,to_date_stringTextInput.text,useActualNumbersCheckBox.selected,usePercentagesCheckBox.selected,incrementFieldsCheckBox.selected);
+			}
+			
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				getHistoricalFinancialDataResult2.token = dBFinancialWebServices.getHistoricalFinancialData(nameTextInput.text,from_date_stringTextInput2.text,to_date_stringTextInput2.text);
+			}
+			
+			protected function Finance_itemClickHandler(event:ChartItemEvent):void
+			{
+				// TODO Auto-generated method stub
+				var date:String; 
+				var year:int = ((event.hitData.item) as FinancialDataItem)._date.fullYear.valueOf();
+				var month:int = ((event.hitData.item) as FinancialDataItem)._date.month.valueOf()+1;
+				var day:int = ((event.hitData.item) as FinancialDataItem)._date.date.valueOf();
+				
+				most_frequently_used_words_strings 
+				date = year + "-" + month + "-" + day;  
+				current_date = date; 
+				
+				getFilteredTopsyCompanyData(nameTextInput.text.toString(),date,filterRadioGroup.selectedValue.toString(),  mostInfluentialTweetLimit);
+			}
+						
+			protected function getFilteredTopsyCompanyData(query:String, date_string:String, filter:String, limit:int):void
+			{
+				getFilteredTopsyCompanyDataResult.token = dBTopsyWebServices.getFilteredTopsyCompanyData(query, date_string, filter, limit);
+			}
+			
+			protected function getTopsyProcessedDataForOneDay(query:String, date_string:String):void
+			{
+				getTopsyProcessedDataForOneDayResult.token = dBTopsyWebServices.getTopsyProcessedDataForOneDay(query, date_string);
+			}
+			
+			protected function getTopsyProcessedDataForOneDayResult_resultHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(getTopsyProcessedDataForOneDayResult.lastResult != null)
+					most_frequently_used_words_strings = ((getTopsyProcessedDataForOneDayResult.lastResult) as TopsyProcessedDataItem).most_used_words;
+			}
+			
+			protected function topsyFilterRadioGroup_clickHandler(event:MouseEvent):void
+			{
+				getFilteredTopsyCompanyData(nameTextInput.text.toString(),current_date,filterRadioGroup.selectedValue.toString(),  mostInfluentialTweetLimit)
+			}
+			
+			
+			protected function getFilteredTopsyCompanyDataResult_resultHandler(event:ResultEvent):void
+			{
+				getTopsyProcessedDataForOneDay(nameTextInput.text.toString(), current_date);
+			}
+			
+			
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="detailed"/>
+	</s:states>
+	
+	<fx:Declarations>
+		
+		<s:RadioButtonGroup id="filterRadioGroup" />
+		<dbfinancialwebservices:DBFinancialWebServices id="dBFinancialWebServices"
+													   fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+													   showBusyCursor="true"/>
+		<s:CallResponder id="getHistoricalFinancialDataResult"/>
+		<s:CallResponder id="getHistoricalFinancialDataResult2"/>
+		<s:RadioButtonGroup id="tyoeOfTweets"/>
+		<s:RadioButtonGroup id="typeOfSupport"/>
+		<dbtopsywebservices:DBTopsyWebServices id="dBTopsyWebServices"
+											   fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+											   showBusyCursor="true"/>
+		<s:CallResponder id="getTopsyCumulativeProcessedDataResult"/>
+		<s:CallResponder id="getTopsyCompanyDataResult" />
+		<s:CallResponder id="getTopsyProcessedDataResult"/>
+		<s:CallResponder id="getTopsyProcessedDataForOneDayResult" result="getTopsyProcessedDataForOneDayResult_resultHandler(event)"/>
+		<s:CallResponder id="getFilteredTopsyCompanyDataResult" result="getFilteredTopsyCompanyDataResult_resultHandler(event)"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	
+	</fx:Declarations>
+			<s:Label left="14" right="1124" top="394" bottom="692" color="#FFFFFF" fontSize="28"
+					 text="Topsy Social Data"
+					 left.detailed="15" right.detailed="1123" top.detailed="298"
+					 bottom.detailed="788"
+					 left.normal="14" right.normal="1124" top.normal="297" bottom.normal="789"/>
+			<s:Label left="20" right="1118" top="703" bottom="383" color="#FFFFFF" fontSize="28"
+					 text="Most Used Words"
+					 left.detailed="21" right.detailed="1117" top.detailed="607"
+					 bottom.detailed="479"
+					 left.normal="20" right.normal="1118" top.normal="606" bottom.normal="480"/>
+			<s:Form left="24" right="1118" top="148" bottom="781" defaultButton="{button2}"
+					left.detailed="25" right.detailed="1117" top.detailed="52" bottom.detailed="877"
+					left.normal="24" right.normal="1118" top.normal="51" bottom.normal="878">
+				
+				<s:FormItem label="Name">
+					<s:TextInput id="nameTextInput" text="Intel"/>
+				</s:FormItem>
+				<s:FormItem label="From Date">
+					<s:TextInput id="from_date_stringTextInput2" text="2011-01-01"/>
+				</s:FormItem>
+				
+				<s:FormItem label="To Date">
+					<s:TextInput id="to_date_stringTextInput2" text="2012-01-01"/>
+				</s:FormItem>
+				<s:Button id="button2" label=" Get Fiancial Data" click="button2_clickHandler(event)"
+						  label.detailed=" Get Financial Data"
+						  label.normal=" Get Financial Data"/>
+			</s:Form>
+			<mx:LineChart id="Finance" left="326" right="136" top="149" bottom="733"
+						  dataProvider="{getHistoricalFinancialDataResult2.lastResult}"
+						  itemClick="Finance_itemClickHandler(event)" showDataTips="true"
+						  left.detailed="327" right.detailed="135" top.detailed="53"
+						  bottom.detailed="829"
+						  left.normal="326" right.normal="136" top.normal="52" bottom.normal="830">
+				<mx:series>
+					<mx:LineSeries id="lineSeries2" displayName="Close" xField="_date" yField="close"/>
+				</mx:series>
+				<mx:horizontalAxis>
+					<mx:DateTimeAxis/>
+				</mx:horizontalAxis>
+			</mx:LineChart>
+			<mx:Legend left="1298" right="22.949951" top="149" bottom="837.8"
+					   dataProvider="{Finance}"
+					   left.detailed="1299" right.detailed="21.949951" top.detailed="53"
+					   bottom.detailed="933.8"
+					   left.normal="1298" right.normal="22.949951" top.normal="52"
+					   bottom.normal="934.8"/>
+			<s:VGroup x="350" y="729"
+					  x.detailed="351" y.detailed="633"
+					  x.normal="350" y.normal="632">
+			</s:VGroup>
+			<s:VGroup id="topsyFilterVGroup" left="1296" right="22" top="735" bottom="125"
+					  click="topsyFilterRadioGroup_clickHandler(event)"
+					  left.detailed="1297" right.detailed="21" top.detailed="634"
+					  bottom.detailed="178"
+					  left.normal="1296" right.normal="22" top.normal="633" bottom.normal="179">
+				<s:RadioButton label="All" groupName="filterRadioGroup" selected="true"/>
+				<s:RadioButton label="English" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Non English" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Relevant" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Irrelevant" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Neutral" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Not Neutral" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Subjective" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Objective" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Growth" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Decline" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Positive" groupName="filterRadioGroup"/>
+				<s:RadioButton label="Negative" groupName="filterRadioGroup"/>
+			</s:VGroup>
+			
+			<s:Label left="24" right="1114" top="125" bottom="961" color="#FFFFFF" fontSize="28"
+					 text="Finance Data"
+					 left.detailed="25" right.detailed="1113" top.detailed="29"
+					 bottom.detailed="1057"
+					 left.normal="24" right.normal="1114" top.normal="28" bottom.normal="1058"/>
+			<s:TextArea id="mostInfluentialTextArea" left="21" right="1112" top="729" bottom="25"
+						fontSize="24" text="{most_frequently_used_words_strings}" textAlign="center"
+						left.detailed="22" right.detailed="1111" top.detailed="633"
+						bottom.detailed="173"
+						left.normal="21" right.normal="1112" top.normal="632" bottom.normal="174"/>
+			
+			<s:DataGrid left="326" right="136" top="729" bottom="25" requestedRowCount="4"
+						left.detailed="327" right.detailed="135" top.detailed="633"
+						bottom.detailed="173"
+						left.normal="326" right.normal="136" top.normal="632" bottom.normal="174">
+				<s:columns>
+					<s:ArrayList>
+						<s:GridColumn dataField="score" headerText="Influence" width="100" ></s:GridColumn>
+						<s:GridColumn dataField="title" headerText="Tweet Content" ></s:GridColumn>
+					</s:ArrayList>
+				</s:columns>
+				<s:typicalItem>
+					<fx:Object content="content" title = "title" date="date"
+							   hits="hits" idtopsy_table="idtopsy_table" name="name"
+							   query="query" topsy_relevant="topsy_relevant"
+							   results_total="total_search_results" score="score"
+							   url="url" trackback_total="trackback_total"> </fx:Object>
+				</s:typicalItem>
+				<s:AsyncListView list="{getFilteredTopsyCompanyDataResult.lastResult}"/>
+			</s:DataGrid>
+			
+			<s:Label id="mostInfWordsLabel" left="326" right="484" top="703" bottom="383"
+					 color="#FFFFFF" fontSize="28" text="Most Influencial Tweets for {current_date}"
+					 left.detailed="327" right.detailed="483" top.detailed="607"
+					 bottom.detailed="479"
+					 left.normal="326" right.normal="484" top.normal="606" bottom.normal="480"/>
+			
+			<s:Label left="1296" right="45" top="703" bottom="383" color="#FFFFFF" fontSize="28"
+					 text="Filter"
+					 left.detailed="1297" right.detailed="44" top.detailed="607"
+					 bottom.detailed="479"
+					 left.normal="1296" right.normal="45" top.normal="606" bottom.normal="480"/>
+			<s:Form left="24" right="1075" top="439" bottom="464" defaultButton="{button}"
+					left.detailed="25" right.detailed="1074" top.detailed="343"
+					bottom.detailed="559"
+					left.normal="24" right.normal="1075" top.normal="342" bottom.normal="560">
+				<s:FormItem label="Name">
+					<s:TextInput id="queryTextInput" text="Intel"/>
+				</s:FormItem>
+				<s:FormItem label="From Date">
+					<s:TextInput id="from_date_stringTextInput" text="2011-01-01"/>
+				</s:FormItem>
+				<s:FormItem label="To Date">
+					<s:TextInput id="to_date_stringTextInput" text="2012-01-01"/>
+				</s:FormItem>
+				<s:ToggleButton id = "toggleButton" label="Break Down Objective and Subjective Tweets" selected="false"
+								click.normal = "currentState='detailed'" click="currentState='normal'"/>
+				<s:Button id="button" label="Get Social Data"
+						  click="button_clickHandler(event)"/>
+			</s:Form>
+			<s:FormItem left="715" right="505" top="662" bottom="421" label="Use Histogram Values"
+						left.detailed="716" right.detailed="504" top.detailed="566"
+						bottom.detailed="517"
+						left.normal="715" right.normal="505" top.normal="565" bottom.normal="518">
+				<s:CheckBox id="useActualNumbersCheckBox" selected="true"/>
+			</s:FormItem>
+			<s:FormItem left="1105" right="130" top="664" bottom="419" label="Show Percentages"
+						textAlign="right"
+						left.detailed="1106" right.detailed="129" top.detailed="568"
+						bottom.detailed="515"
+						left.normal="1105" right.normal="130" top.normal="567" bottom.normal="516">
+				<s:CheckBox id="usePercentagesCheckBox" selected="false"/>
+			</s:FormItem>
+			<s:FormItem left="914" right="325" top="662" bottom="421" label="Increment Fields"
+						textAlign="center"
+						left.detailed="915" right.detailed="324" top.detailed="566"
+						bottom.detailed="517"
+						left.normal="914" right.normal="325" top.normal="565" bottom.normal="518">
+				<s:CheckBox id="incrementFieldsCheckBox" selected="true"/>
+			</s:FormItem>
+			
+			
+			<mx:AreaChart id="TopsySocial" includeIn="normal" left="326" right="136" top="308"
+						  bottom="561"
+						  dataProvider="{getTopsyCumulativeProcessedDataResult.lastResult}"
+						  showDataTips="true">
+				<mx:series>
+					<mx:AreaSeries id="areaSeries" displayName="Subjective" xField="_date" yField="no_subjective"/>
+					<mx:AreaSeries id="areaSeries2" displayName="Objective" xField="_date"
+								   yField="no_objective"/>
+					<mx:AreaSeries id="areaSeries3" displayName="Neutral" xField="_date" yField="no_neutral"/>
+					<mx:AreaSeries id="areaSeries4" displayName="Irrelevant" xField="_date"
+								   yField="no_irrelevant"/>
+					<mx:AreaSeries id="areaSeries5" displayName="Not English" xField="_date"
+								   yField="no_not_english"/>
+				</mx:series>
+				<mx:horizontalAxis>
+					<mx:DateTimeAxis/>
+				</mx:horizontalAxis>
+			</mx:AreaChart>
+			<mx:Legend includeIn="normal" left="1299" right="21.949951" top="308" bottom="617.8"
+					   dataProvider="{TopsySocial}"/>
+	<mx:AreaChart id="TopsyBrokenDown" includeIn="detailed" x="326" y="308" width="946" height="250"
+				  dataProvider="{getTopsyCumulativeProcessedDataResult.lastResult}"
+				  showDataTips="true">
+		<mx:series>
+			<mx:AreaSeries id="areaSeries6" displayName="Positive" xField="_date" yField="no_positive_sentiments"/>
+			<mx:AreaSeries id="areaSeries7" displayName="Negative" xField="_date"
+						   yField="no_negative_sentiments"/>
+			<mx:AreaSeries id="areaSeries8" displayName="Growth" xField="_date"
+						   yField="no_growth_comments"/>
+			<mx:AreaSeries id="areaSeries9" displayName="Decline" xField="_date"
+						   yField="no_recession_comments"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:AreaChart>
+	<mx:Legend includeIn="detailed" x="1299" y="303" height="181.2" dataProvider="{TopsyBrokenDown}"/>
+</s:Group>

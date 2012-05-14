@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="1600" height="900" xmlns:assets="assets.*">
+	
+	<fx:Script >
+		<![CDATA[
+			public var applicationInastance:SocialVision;
+		
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				applicationInastance.changeStateTo("SocialExplorerState");
+			}
+			
+			protected function buttonTwitFinCorExplorer_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				applicationInastance.changeStateTo("TwitFinCorExplorerState");
+			}
+			
+			protected function buttonMultiFinCorExplorer_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				applicationInastance.changeStateTo("FinFinCorExplorerState");
+			}
+			
+			protected function buttonPartCompExplorer_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function buttonMachFinPred_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				applicationInastance.changeStateTo("FinPredictionState");
+			}
+			
+			protected function buttonNatLangStats_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				applicationInastance.changeStateTo("NatLangToolKitAlgStatState");
+			}
+			
+			protected function buttonTrainNatAlg_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				applicationInastance.changeStateTo("TrainNltkAlgorithmState");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Group id = "HomePageGroup" width = "100%" height = "100%">
+		<assets:NewLogo left="508" right="477" top="-1" height="360">
+		</assets:NewLogo>
+		
+		
+		<s:VGroup x="593" y="312" width="413" height="578" gap="20" horizontalAlign="center">
+			<s:Button id="buttonTrainNatAlg" width="350" height="40" label="Train Natural Language Algorithm" click="buttonTrainNatAlg_clickHandler(event)"/>
+			<s:Button id="buttonNatLangStats" width="350" height="40" label="Natural Language Algorithm Statistics" click="buttonNatLangStats_clickHandler(event)"/>
+			<s:Button id="buttonSocExplorer" width="350" height="40" label="Social Explorer"
+					  click="button1_clickHandler(event)"/>
+			<s:Button id="buttonMachFinPred" width="350" height="40" label="Machine Learning Financial Prediction Generator " click="buttonMachFinPred_clickHandler(event)"/>
+			<s:Button id="buttonTwitFinCorExplorer" width="350" height="40"
+					  label="Twitter &amp; Finance Correlation Explorer" click="buttonTwitFinCorExplorer_clickHandler(event)"/>
+			<s:Button id="buttonMultiFinCorExplorer" width="350" height="40" label="Multible Finance Correlation &amp; Mentions Explorer" click="buttonMultiFinCorExplorer_clickHandler(event)"/>
+			<s:Button id="buttonPartCompExplorer" width="350" height="40" label="Partner/Competitor Explorer" click="buttonPartCompExplorer_clickHandler(event)"/>
+		</s:VGroup>
+	</s:Group>
+	
+</s:Group>

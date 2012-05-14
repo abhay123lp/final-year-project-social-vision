@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:Screens="Screens.*"
+		 currentState="Historical">
+	<s:states>
+		<s:State name="Historical"/>
+		<s:State name="RealTime"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<Screens:CorrelationFinanceVsFinance includeIn="Historical" /> 
+	<Screens:CorrelationFinanceVsFinanceRealTime includeIn="RealTime" /> 
+	
+	
+	<s:Label x="33" y="63" fontSize="50" 
+			 text.Historical="Historical Finance and Tweets"
+			 text.RealTime="Real Time Finance and Tweets"/>
+	
+	<s:ToggleButton x="231" y="136" width="125"
+					label.Historical="Historical" click.Historical="currentState='RealTime'"
+					x.RealTime="219" y.RealTime="136" label.RealTime="RealTime"
+					click.RealTime="currentState='Historical'"/>
+	
+
+</s:Group>

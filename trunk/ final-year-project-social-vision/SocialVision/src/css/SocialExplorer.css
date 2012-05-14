@@ -1,0 +1,17 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+
+global
+{
+	font-size: 12;
+	font-family: Arial;
+	color: #000000;
+}
+mx|LineChart
+{
+	color: #010000;
+}
+
+	

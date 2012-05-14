@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:valueObjects="valueObjects.*"
+			   xmlns:dbpythonscriptswebservices="services.dbpythonscriptswebservices.*"
+			   xmlns:local="*"
+			   width="1307" height="1326" minWidth="955" minHeight="600"
+			   currentState="IsEnglishState" xmlns:Screens="Screens.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.events.IndexChangeEvent;
+
+			
+			protected function myCB_changeHandler(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				if (myCB.selectedItem == "Is English")
+					currentState = "IsEnglishState"; 
+				else if (myCB.selectedItem == "Relevance")
+					currentState = "RelevanceState";
+				else if (myCB.selectedItem == "Neutrality")
+					currentState = "NeutralityState";
+				else if (myCB.selectedItem == "Subjectivty")
+					currentState = "SubjectivityState";
+				else if (myCB.selectedItem == "Sentiment")
+					currentState = "SentimentState";
+				else if (myCB.selectedItem == "GrowthDecline")
+					currentState = "GrowthDeclineState";
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="RelevanceState"/>
+		<s:State name="IsEnglishState"/>
+		<s:State name="NeutralityState"/>
+		<s:State name="SubjectivityState"/>
+		<s:State name="SentimentState"/>
+		<s:State name="GrowthDeclineState"/>
+	</s:states>
+	
+	<fx:Declarations>
+		
+		
+	</fx:Declarations>
+	<s:Group>
+		<Screens:SimpleTrainNLTK 
+			scriptName="NLTKCompanyIsEnglishClassifier" 
+			classNameOne ="English"
+			classNameTwo ="Not English"
+			includeIn="IsEnglishState">
+		</Screens:SimpleTrainNLTK>
+		
+		<Screens:SimpleTrainNLTK 
+			scriptName="NLTKCompanyRelevanceClassifier" 
+			classNameOne ="Relevant"
+			classNameTwo ="Irrelevant"
+			includeIn="RelevanceState">
+		</Screens:SimpleTrainNLTK>
+		
+		<Screens:SimpleTrainNLTK 
+			scriptName="NLTKCompanyIsNeutralClassifier" 
+			classNameOne ="Neutral"
+			classNameTwo ="Not Neutral"
+			includeIn="NeutralityState">
+		</Screens:SimpleTrainNLTK>
+		
+		<Screens:AdvanceTrainNLTK 
+			scriptName="NLTKCompanySubjectivityClassifier" 
+			classNameOne ="Subjective"
+			classNameTwo ="Objective"
+			includeIn="SubjectivityState">
+		</Screens:AdvanceTrainNLTK>
+		
+		<Screens:SimpleTrainNLTK 
+			scriptName="NLTKCompanyGrowthRecessionClassifier" 
+			classNameOne ="Growth"
+			classNameTwo ="Decline"
+			includeIn="GrowthDeclineState">
+		</Screens:SimpleTrainNLTK>
+		
+		<Screens:AdvanceTrainNLTK 
+			scriptName="NLTKCompanySentimentClassifier" 
+			classNameOne ="Positive"
+			classNameTwo ="Negative"
+			includeIn="SentimentState">
+		</Screens:AdvanceTrainNLTK>
+		
+		<s:ComboBox id="myCB" x="231" y="188" width="127" change="myCB_changeHandler(event)"
+					prompt="Is English"
+					x.GrowthDeclineState="232" y.GrowthDeclineState="67"
+					x.IsEnglishState="232" y.IsEnglishState="67"
+					x.NeutralityState="232" y.NeutralityState="67"
+					x.RelevanceState="232" y.RelevanceState="67"
+					x.SentimentState="275" y.SentimentState="67"
+					x.SubjectivityState="276" y.SubjectivityState="65">
+			<s:dataProvider>
+				<mx:ArrayCollection>
+					<fx:String>Is English</fx:String>
+					<fx:String>Relevance</fx:String>
+					<fx:String>Neutrality</fx:String>
+					<fx:String>Subjectivty</fx:String>
+					<fx:String>Sentiment</fx:String>
+					<fx:String>GrowthDecline</fx:String>
+				</mx:ArrayCollection>
+			</s:dataProvider>
+		</s:ComboBox>
+	</s:Group>
+	
+</s:Group>

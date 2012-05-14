@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:dataanalysiswebservices="services.dataanalysiswebservices.*"
+			   xmlns:dbtopsywebservices="services.dbtopsywebservices.*"
+			   height="1258" minWidth="955" minHeight="600">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			protected function button_clickHandler(event:MouseEvent):void
+			{
+				calculateCorrelationFinanceVsFinanceResult.token = dataAnalysisWebServices.calculateCorrelationFinanceVsFinance(company_one_nameTextInput.text,company_two_nameTextInput.text,company_one_fieldTextInput.text,company_two_fieldTextInput.text,from_date_stringTextInput.text,to_date_stringTextInput.text,intervalTextInput.text,moving_average_typeTextInput.text,parseInt(moving_average_window_sizeTextInput.text),parseFloat(moving_average_alphaTextInput.text),correlation_typeTextInput.text,parseInt(moving_correlation_window_sizeTextInput.text));
+			}
+			
+			
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				getSpecificProcessedDataResult.token = dBTopsyWebServices.getSpecificProcessedData(queryTextInput.text,topsy_fieldTextInput.text,from_date_stringTextInput2.text,to_date_stringTextInput2.text);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<dataanalysiswebservices:DataAnalysisWebServices id="dataAnalysisWebServices"
+														 fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+														 showBusyCursor="true"/>
+		<s:CallResponder id="calculateCorrelationFinanceVsFinanceResult"/>
+		<dbtopsywebservices:DBTopsyWebServices id="dBTopsyWebServices"
+											   fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+											   showBusyCursor="true"/>
+		<s:CallResponder id="getSpecificProcessedDataResult"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Form x="10" y="162" defaultButton="{button}">
+		<s:FormItem label="1st Company">
+			<s:TextInput id="company_one_nameTextInput"  text="Intel" />
+		</s:FormItem>
+		<s:FormItem label="2nd Company">
+			<s:TextInput id="company_two_nameTextInput" text="Google"/>
+		</s:FormItem>
+		<s:FormItem label="1st Finance DB Field">
+			<s:TextInput id="company_one_fieldTextInput" text="close"/>
+		</s:FormItem>
+		<s:FormItem label="2nd Finance DB Field">
+			<s:TextInput id="company_two_fieldTextInput" text="close"/>
+		</s:FormItem>
+		<s:FormItem label="From Date">
+			<s:TextInput id="from_date_stringTextInput" text="2011-01-01"/>
+		</s:FormItem>
+		<s:FormItem label="To Date">
+			<s:TextInput id="to_date_stringTextInput" text="2012-01-01"/>
+		</s:FormItem>
+		<s:FormItem label="Interval">
+			<s:TextInput id="intervalTextInput" text="day"/>
+		</s:FormItem>
+		<s:FormItem label="Moving Average Type">
+			<s:TextInput id="moving_average_typeTextInput" text="SMA"/>
+		</s:FormItem>
+		<s:FormItem label="Moving_average Window Size">
+			<s:TextInput id="moving_average_window_sizeTextInput" text="10"/>
+		</s:FormItem>
+		<s:FormItem label="Moving Average Alpha">
+			<s:TextInput id="moving_average_alphaTextInput" text="0.1"/>
+		</s:FormItem>
+		<s:FormItem label="Correlation Type">
+			<s:TextInput id="correlation_typeTextInput" text="Linear"/>
+		</s:FormItem>
+		<s:FormItem label="Moving Correlation Window Size">
+			<s:TextInput id="moving_correlation_window_sizeTextInput" text="10"/>
+		</s:FormItem>
+		<s:Button id="button" label="Calculate Correlation"
+				  click="button_clickHandler(event)"/>
+	</s:Form>
+	<mx:LineChart id="CompanyOne" x="405" y="162" width="758" height="176"
+				  dataProvider="{calculateCorrelationFinanceVsFinanceResult.lastResult.correlationXYItems}"
+				  showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries" displayName="CompanyOne" xField="x_date" yField="x_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1171" y="162" dataProvider="{CompanyOne}"/>
+	<mx:LineChart id="CompanyTwo" x="405" y="346" width="758" height="176"
+				  dataProvider="{calculateCorrelationFinanceVsFinanceResult.lastResult.correlationXYItems}"
+				  showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries3" displayName="CompanyTwo" xField="y_date" yField="y_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1167" y="346" dataProvider="{CompanyTwo}"/>
+	<mx:LineChart id="Correlation" x="407" y="530" width="758" height="192"
+				  dataProvider="{calculateCorrelationFinanceVsFinanceResult.lastResult.correlationXYItems}"
+				  showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries4" displayName="Correlation" xField="y_date" yField="correlation_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1173" y="530" dataProvider="{Correlation}"/>
+	<mx:LineChart id="TopsySocial" x="405" y="744" width="760" height="222"
+				  dataProvider="{getSpecificProcessedDataResult.lastResult}" showDataTips="true">
+		<mx:series>
+			<mx:LineSeries id="lineSeries5" displayName="TospySocialData" xField="_date" yField="Topsy_value"/>
+		</mx:series>
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis/>
+		</mx:horizontalAxis>
+	</mx:LineChart>
+	<mx:Legend x="1173" y="744" dataProvider="{TopsySocial}"/>
+	<s:Form x="10" y="848" width="386" height="273" defaultButton="{button2}">
+		<s:FormItem label="Company Name">
+			<s:TextInput id="queryTextInput" text="Intel"/>
+		</s:FormItem>
+		<s:FormItem label="Topsy DB Field">
+			<s:TextInput id="topsy_fieldTextInput" text="histogram_total"/>
+		</s:FormItem>
+		<s:FormItem label="From Date">
+			<s:TextInput id="from_date_stringTextInput2" text="2011-01-01"/>
+		</s:FormItem>
+		<s:FormItem label="To Date">
+			<s:TextInput id="to_date_stringTextInput2" text="2012-01-01" />
+		</s:FormItem>
+		<s:Button id="button2" label="Get Social Data" click="button2_clickHandler(event)"/>
+	</s:Form>
+	<s:Label x="649" y="1014" width="296" height="21" fontFamily="Times New Roman" fontSize="28"
+			 fontWeight="bold" text="Spearman Correlation" textAlign="center"/>
+	<s:Label x="953" y="1012" width="296" height="21" fontFamily="Times New Roman" fontSize="28"
+			 fontWeight="bold" text="Kendell Correlation" textAlign="center"/>
+	<s:Label x="404" y="1013" width="263" height="21" fontFamily="Times New Roman" fontSize="28"
+			 fontWeight="bold" text="Linear Correlation&#xd;"/>
+	<s:Label id="label2" x="404" y="1040" width="211" height="25" fontFamily="Times New Roman"
+			 fontSize="28" fontWeight="normal"
+			 text="{calculateCorrelationFinanceVsFinanceResult.lastResult.linearCorrelationCoeff}"
+			 textAlign="center"/>
+	<s:Label id="label3" x="668" y="1039" width="264" fontFamily="Times New Roman" fontSize="28"
+			 text="{calculateCorrelationFinanceVsFinanceResult.lastResult.spearmanCorrelationCoeff}"
+			 textAlign="center"/>
+	<s:Label id="label0" x="962" y="1037" width="264" fontFamily="Times New Roman" fontSize="28"
+			 text="{calculateCorrelationFinanceVsFinanceResult.lastResult.spearmanCorrelationCoeff}"
+			 textAlign="center"/>
+</s:Group>
