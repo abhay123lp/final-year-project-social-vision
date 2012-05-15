@@ -60,11 +60,77 @@ public class DBGraphingOperations {
     {
        Graph aGraph = new Graph ();
        aGraph = addAllCompanyNodes(aGraph);
-       aGraph = addAllEdgesForCompany(aGraph, company_name, from_date, to_date);      
+       aGraph = addAllEdgesForCompany(aGraph, company_name, from_date, to_date, -1);      
        return aGraph;
     }
     
-    public static Graph addAllEdgesForCompany(Graph aGraph, String company_name, String from_date, String to_date) throws NamingException, SQLException
+    // For Historical Topsy Data
+    public static Graph makeCompleteGraphFromData(String from_date, String to_date) throws NamingException, SQLException
+    {
+       Graph aGraph = new Graph ();
+       int skip_comp_id = 1;
+       
+       aGraph = addAllCompanyNodes(aGraph);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Intel", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Samsung", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Imagination Technologies", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Imgtec", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "ARM", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Google", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Apple", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "HTC", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Sony", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Blackberry", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Nokia", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Motorola", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "LG", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "Microsoft", from_date,to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "IBM", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "ARM Holdings", from_date, to_date,skip_comp_id);
+       skip_comp_id = changeSkipId(skip_comp_id);
+       
+       aGraph = addAllEdgesForCompany(aGraph, "RIM", from_date, to_date,skip_comp_id);
+       
+       return aGraph;
+    }
+    
+    public static int changeSkipId(int skip_comp_id){
+        skip_comp_id = skip_comp_id + 1;
+        return skip_comp_id;
+    }
+    
+    public static Graph addAllEdgesForCompany(Graph aGraph, String company_name, String from_date, String to_date, int skip_comp_id) throws NamingException, SQLException
     {
         int no_Intel_comments = 0;
         int no_Samsung_comments = 0;
@@ -115,75 +181,75 @@ public class DBGraphingOperations {
                + no_Google_comments + no_Apple_comments + no_HTC_comments + no_Sony_comments + no_Blackberry_comments + no_Nokia_comments 
                + no_Motorola_comments + no_LG_comments + no_Microsoft_comments + no_IBM_comments + no_ARM_Holdings_comments + no_RIM_comments;
        
-        Edge tempEdge = new Edge();
+        Edge tempEdge;
         String current_primary_node_id = getNodeIdFromCompanyName(company_name);
 
-        if (!company_name.equals("Intel") &&(no_Intel_comments != 0)){
+        if (!company_name.equals("Intel") && (no_Intel_comments != 0) && (skip_comp_id == -1)){
             tempEdge = createEdge(current_primary_node_id, "1", no_Intel_comments, total_comments); 
             aGraph.edges.add(tempEdge);
         }
         
-        if (!company_name.equals("Samsung")&&(no_Samsung_comments != 0)){
+        if (!company_name.equals("Samsung")&&(no_Samsung_comments != 0) && ((skip_comp_id < 2) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "2", no_Samsung_comments, total_comments);             
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("Imagination Technologies")&&(no_Imagination_Technologies_comments != 0)){
+        if (!company_name.equals("Imagination Technologies")&&(no_Imagination_Technologies_comments != 0) && ((skip_comp_id < 3) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "3", no_Imagination_Technologies_comments, total_comments); 
             aGraph.edges.add(tempEdge); 
         }            
-        if (!company_name.equals("Imgtec")&&(no_Imgtec_comments != 0)){
+        if (!company_name.equals("Imgtec")&&(no_Imgtec_comments != 0)&& ((skip_comp_id < 4) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "4", no_Imgtec_comments, total_comments); 
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("ARM")&&(no_ARM_comments != 0)){
+        if (!company_name.equals("ARM")&&(no_ARM_comments != 0) && ((skip_comp_id < 5) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "5", no_ARM_comments, total_comments); 
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("Google")&&(no_Google_comments != 0)){
+        if (!company_name.equals("Google")&&(no_Google_comments != 0) && ((skip_comp_id < 6) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "6", no_Google_comments, total_comments); 
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("Apple")&&(no_Apple_comments != 0)){
+        if (!company_name.equals("Apple")&&(no_Apple_comments != 0) && ((skip_comp_id < 7) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "7", no_Apple_comments, total_comments); 
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("HTC")&&(no_HTC_comments != 0)){
+        if (!company_name.equals("HTC")&&(no_HTC_comments != 0) && ((skip_comp_id < 8) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "8", no_HTC_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("Sony")&&(no_Sony_comments != 0)){
+        if (!company_name.equals("Sony")&&(no_Sony_comments != 0)&& ((skip_comp_id < 9) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "9", no_Sony_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("Blackberry")&&(no_Blackberry_comments != 0)){
+        if (!company_name.equals("Blackberry")&&(no_Blackberry_comments != 0)&& ((skip_comp_id < 10) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "10", no_Blackberry_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("Nokia")&&(no_Nokia_comments != 0)){
+        if (!company_name.equals("Nokia")&&(no_Nokia_comments != 0)&& ((skip_comp_id < 11) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "11", no_Nokia_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("Motorola")&&(no_Motorola_comments != 0)){
+        if (!company_name.equals("Motorola")&&(no_Motorola_comments != 0)&& ((skip_comp_id < 12) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "12", no_Motorola_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("LG")&&(no_LG_comments != 0)){
+        if (!company_name.equals("LG")&&(no_LG_comments != 0)&& ((skip_comp_id < 13) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "13", no_LG_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("Microsoft")&&(no_Microsoft_comments != 0)){
+        if (!company_name.equals("Microsoft")&&(no_Microsoft_comments != 0)&& ((skip_comp_id < 14) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "14", no_Microsoft_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("IBM")&&(no_IBM_comments != 0)){
+        if (!company_name.equals("IBM")&&(no_IBM_comments != 0)&& ((skip_comp_id < 15) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "15", no_IBM_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("ARM Holdings")&&(no_ARM_Holdings_comments != 0)){
+        if (!company_name.equals("ARM Holdings")&&(no_ARM_Holdings_comments != 0) && ((skip_comp_id < 16) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "16", no_ARM_Holdings_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }
-        if (!company_name.equals("RIM")&&(no_RIM_comments != 0)){
+        if (!company_name.equals("RIM")&&(no_RIM_comments != 0) && ((skip_comp_id < 17) || (skip_comp_id == -1) )){
             tempEdge = createEdge(current_primary_node_id, "17", no_RIM_comments, total_comments);
             aGraph.edges.add(tempEdge);
         }      
