@@ -4,8 +4,12 @@
  */
 package com.webservices;
 
+import com.data.operations.DBGraphingOperations;
 import com.data.operations.DBTwitterOperations;
 import com.data.structures.CorrelationXYData;
+import com.data.structures.Edge;
+import com.data.structures.Graph;
+import com.data.structures.Node;
 import com.finance.statistics.FinancialDataAnalysis;
 import com.finance.statistics.RealTimeTwitterDataAnalysis;
 import com.finance.statistics.TopsyDataAnalysis;
@@ -15,6 +19,23 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.naming.NamingException;
+
+
+import java.io.File;
+import java.io.FileOutputStream;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
+
 
 /**
  *
@@ -82,4 +103,19 @@ public class DataAnalysisWebServices {
         return FinancialDataAnalysis.calculateCorrelationFinanceVsFinance(company_one_name, company_two_name, company_one_field, company_two_field, from_date_string, to_date_string, interval, moving_average_window_size, moving_average_type, moving_average_alpha, correlation_type, moving_correlation_window_size);
     }
     
+    @WebMethod(operationName = "getXMLMap")
+    public String getXMLMap(@WebParam(name = "company_name") String company_name,@WebParam(name = "from_date") String from_date, @WebParam(name = "to_date") String to_date)
+            throws NamingException, SQLException{
+        
+        Graph aGraph = DBGraphingOperations.makeGraphFromSingleCompanyHistorical(company_name, from_date, to_date);  
+        String graphXml = GraphMaker.generateGraphXML(aGraph);
+        return graphXml;
+    }
+    
+    @WebMethod(operationName = "getNodeIdFromCompanyName")
+    public String getXMLMap(@WebParam(name = "company_name") String company_name)
+            throws NamingException, SQLException{
+        String id = DBGraphingOperations.getNodeIdFromCompanyName(company_name);
+        return id;
+    }
 }
