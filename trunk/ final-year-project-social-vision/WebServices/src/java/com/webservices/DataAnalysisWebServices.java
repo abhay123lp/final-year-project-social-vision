@@ -65,7 +65,6 @@ public class DataAnalysisWebServices {
             return TopsyDataAnalysis.calculateCorrelationTopsyVsFinance(query, topsy_field, finacial_field, from_date_string, to_date_string, day_delta, moving_average_type, moving_average_window_size, moving_average_alpha, correlation_type, moving_correlation_window_size);
     }    
     
-    
     @WebMethod(operationName = "calculateCorrelationTwitterVsFinance")
     public CorrelationXYData calculateCorrelationTwitterVsFinance(@WebParam(name = "query") String query,
             @WebParam(name = "twitter_field") String twitter_field,
@@ -103,8 +102,8 @@ public class DataAnalysisWebServices {
         return FinancialDataAnalysis.calculateCorrelationFinanceVsFinance(company_one_name, company_two_name, company_one_field, company_two_field, from_date_string, to_date_string, interval, moving_average_window_size, moving_average_type, moving_average_alpha, correlation_type, moving_correlation_window_size);
     }
     
-    @WebMethod(operationName = "getXMLMap")
-    public String getXMLMap(@WebParam(name = "company_name") String company_name,@WebParam(name = "from_date") String from_date, @WebParam(name = "to_date") String to_date)
+    @WebMethod(operationName = "getXMLMapForCompany")
+    public String getXMLMapForCompany(@WebParam(name = "company_name") String company_name,@WebParam(name = "from_date") String from_date, @WebParam(name = "to_date") String to_date)
             throws NamingException, SQLException{
         
         Graph aGraph = DBGraphingOperations.makeGraphFromSingleCompanyHistorical(company_name, from_date, to_date);  
@@ -112,6 +111,15 @@ public class DataAnalysisWebServices {
         return graphXml;
     }
     
+    @WebMethod(operationName = "getCompleteXMLMap")
+    public String getCompleteXMLMap(@WebParam(name = "from_date") String from_date, @WebParam(name = "to_date") String to_date)
+            throws NamingException, SQLException{
+        
+        Graph aGraph = DBGraphingOperations.makeCompleteGraphFromData(from_date, to_date);  
+        String graphXml = GraphMaker.generateGraphXML(aGraph);
+        return graphXml;
+    }
+
     @WebMethod(operationName = "getNodeIdFromCompanyName")
     public String getXMLMap(@WebParam(name = "company_name") String company_name)
             throws NamingException, SQLException{
