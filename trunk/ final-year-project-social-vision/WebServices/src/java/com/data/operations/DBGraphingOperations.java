@@ -19,23 +19,23 @@ import javax.naming.NamingException;
  */
 public class DBGraphingOperations {
      // Colours 
-    public static String intel_colour = "0x333333";
-    public static String samsung_colour = "0x333333";
-    public static String imagination_Technologies_colour = "0x333333";
-    public static String imgtec_colour = "0x333333";
-    public static String ARM_colour = "0x333333";
-    public static String google_colour = "0x333333";
-    public static String apple_colour = "0x333333";
-    public static String HTC_colour = "0x333333";
-    public static String sony_colour = "0x333333";
-    public static String blackberry_colour = "0x333333";
-    public static String nokia_colour = "0x333333";
-    public static String motorola_colour = "0x333333";
-    public static String LG_colour = "0x333333";
-    public static String microsoft_colour = "0x333333";
-    public static String IBM_colour = "0x333333";
-    public static String ARM_Holdings_colour = "0x333333";
-    public static String RIM_colour = "0x333333";
+    public static String intel_colour = "0xF21313";
+    public static String samsung_colour = "0xF21395";
+    public static String imagination_Technologies_colour = "0xB713F2";
+    public static String imgtec_colour = "0x6913F2";
+    public static String ARM_colour = "0x133CF2";
+    public static String google_colour = "0x13B3F2";
+    public static String apple_colour = "0x13F2BB";
+    public static String HTC_colour = "0x13F24F";
+    public static String sony_colour = "0xF29513";
+    public static String blackberry_colour = "0xD4F213";
+    public static String nokia_colour = "0xAA8CDE";
+    public static String motorola_colour = "0xF21395";
+    public static String LG_colour = "0x9592A8";
+    public static String microsoft_colour = "0x457D8A";
+    public static String IBM_colour = "0x458A6E";
+    public static String ARM_Holdings_colour = "0x4F8A45";
+    public static String RIM_colour = "0x8A6845";
     
     public static String size_intel = "50";
     public static String size_samsung = "50";
@@ -60,7 +60,7 @@ public class DBGraphingOperations {
     {
        Graph aGraph = new Graph ();
        aGraph = addAllCompanyNodes(aGraph);
-       aGraph = addAllEdgesForCompany(aGraph, company_name, from_date, to_date, -1);      
+       aGraph = addAllEdgesForCompany(aGraph, company_name, from_date, to_date, -1, intel_colour);      
        return aGraph;
     }
     
@@ -72,55 +72,55 @@ public class DBGraphingOperations {
        
        aGraph = addAllCompanyNodes(aGraph);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Intel", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Intel", from_date, to_date,skip_comp_id, intel_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Samsung", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Samsung", from_date, to_date,skip_comp_id, samsung_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Imagination Technologies", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Imagination Technologies", from_date, to_date,skip_comp_id, imagination_Technologies_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Imgtec", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Imgtec", from_date, to_date,skip_comp_id, imgtec_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "ARM", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "ARM", from_date, to_date,skip_comp_id, ARM_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Google", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Google", from_date, to_date,skip_comp_id, google_colour);
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Apple", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Apple", from_date, to_date,skip_comp_id, apple_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "HTC", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "HTC", from_date, to_date,skip_comp_id, HTC_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Sony", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Sony", from_date, to_date,skip_comp_id, sony_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Blackberry", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Blackberry", from_date, to_date,skip_comp_id, blackberry_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Nokia", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Nokia", from_date, to_date,skip_comp_id, nokia_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Motorola", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Motorola", from_date, to_date,skip_comp_id, motorola_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "LG", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "LG", from_date, to_date,skip_comp_id, LG_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "Microsoft", from_date,to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "Microsoft", from_date,to_date,skip_comp_id, microsoft_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "IBM", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "IBM", from_date, to_date,skip_comp_id, IBM_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "ARM Holdings", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "ARM Holdings", from_date, to_date,skip_comp_id, ARM_Holdings_colour );
        skip_comp_id = changeSkipId(skip_comp_id);
        
-       aGraph = addAllEdgesForCompany(aGraph, "RIM", from_date, to_date,skip_comp_id);
+       aGraph = addAllEdgesForCompany(aGraph, "RIM", from_date, to_date,skip_comp_id, RIM_colour);
        
        return aGraph;
     }
@@ -130,7 +130,7 @@ public class DBGraphingOperations {
         return skip_comp_id;
     }
     
-    public static Graph addAllEdgesForCompany(Graph aGraph, String company_name, String from_date, String to_date, int skip_comp_id) throws NamingException, SQLException
+    public static Graph addAllEdgesForCompany(Graph aGraph, String company_name, String from_date, String to_date, int skip_comp_id, String company_colour) throws NamingException, SQLException
     {
         int no_Intel_comments = 0;
         int no_Samsung_comments = 0;
@@ -185,72 +185,72 @@ public class DBGraphingOperations {
         String current_primary_node_id = getNodeIdFromCompanyName(company_name);
 
         if (!company_name.equals("Intel") && (no_Intel_comments != 0) && (skip_comp_id == -1)){
-            tempEdge = createEdge(current_primary_node_id, "1", no_Intel_comments, total_comments); 
+            tempEdge = createEdge(current_primary_node_id, "1", no_Intel_comments, total_comments, company_colour); 
             aGraph.edges.add(tempEdge);
         }
         
         if (!company_name.equals("Samsung")&&(no_Samsung_comments != 0) && ((skip_comp_id < 2) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "2", no_Samsung_comments, total_comments);             
+            tempEdge = createEdge(current_primary_node_id, "2", no_Samsung_comments, total_comments, company_colour);             
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("Imagination Technologies")&&(no_Imagination_Technologies_comments != 0) && ((skip_comp_id < 3) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "3", no_Imagination_Technologies_comments, total_comments); 
+            tempEdge = createEdge(current_primary_node_id, "3", no_Imagination_Technologies_comments, total_comments, company_colour); 
             aGraph.edges.add(tempEdge); 
         }            
         if (!company_name.equals("Imgtec")&&(no_Imgtec_comments != 0)&& ((skip_comp_id < 4) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "4", no_Imgtec_comments, total_comments); 
+            tempEdge = createEdge(current_primary_node_id, "4", no_Imgtec_comments, total_comments, company_colour); 
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("ARM")&&(no_ARM_comments != 0) && ((skip_comp_id < 5) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "5", no_ARM_comments, total_comments); 
+            tempEdge = createEdge(current_primary_node_id, "5", no_ARM_comments, total_comments, company_colour); 
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("Google")&&(no_Google_comments != 0) && ((skip_comp_id < 6) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "6", no_Google_comments, total_comments); 
+            tempEdge = createEdge(current_primary_node_id, "6", no_Google_comments, total_comments, company_colour); 
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("Apple")&&(no_Apple_comments != 0) && ((skip_comp_id < 7) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "7", no_Apple_comments, total_comments); 
+            tempEdge = createEdge(current_primary_node_id, "7", no_Apple_comments, total_comments, company_colour); 
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("HTC")&&(no_HTC_comments != 0) && ((skip_comp_id < 8) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "8", no_HTC_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "8", no_HTC_comments, total_comments, company_colour );
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("Sony")&&(no_Sony_comments != 0)&& ((skip_comp_id < 9) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "9", no_Sony_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "9", no_Sony_comments, total_comments, company_colour);
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("Blackberry")&&(no_Blackberry_comments != 0)&& ((skip_comp_id < 10) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "10", no_Blackberry_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "10", no_Blackberry_comments, total_comments, company_colour);
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("Nokia")&&(no_Nokia_comments != 0)&& ((skip_comp_id < 11) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "11", no_Nokia_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "11", no_Nokia_comments, total_comments, company_colour );
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("Motorola")&&(no_Motorola_comments != 0)&& ((skip_comp_id < 12) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "12", no_Motorola_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "12", no_Motorola_comments, total_comments, company_colour );
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("LG")&&(no_LG_comments != 0)&& ((skip_comp_id < 13) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "13", no_LG_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "13", no_LG_comments, total_comments, company_colour);
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("Microsoft")&&(no_Microsoft_comments != 0)&& ((skip_comp_id < 14) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "14", no_Microsoft_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "14", no_Microsoft_comments, total_comments, company_colour );
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("IBM")&&(no_IBM_comments != 0)&& ((skip_comp_id < 15) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "15", no_IBM_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "15", no_IBM_comments, total_comments, company_colour );
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("ARM Holdings")&&(no_ARM_Holdings_comments != 0) && ((skip_comp_id < 16) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "16", no_ARM_Holdings_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "16", no_ARM_Holdings_comments, total_comments, company_colour );
             aGraph.edges.add(tempEdge);
         }
         if (!company_name.equals("RIM")&&(no_RIM_comments != 0) && ((skip_comp_id < 17) || (skip_comp_id == -1) )){
-            tempEdge = createEdge(current_primary_node_id, "17", no_RIM_comments, total_comments);
+            tempEdge = createEdge(current_primary_node_id, "17", no_RIM_comments, total_comments, company_colour);
             aGraph.edges.add(tempEdge);
         }      
        return aGraph;
@@ -331,24 +331,7 @@ public class DBGraphingOperations {
         return aGraph;
     }
     
-    public static Edge createEdge(String fromID, String toID, int num_of_comments, int total_comments)
-    {
-        int flow = 0;
-        int flow_factor = 1; 
-        
-        flow = ((int)(((double) num_of_comments/(double) total_comments)* (double) 100 * flow_factor));
-        if(flow < 10)
-            flow = 10;
-
-        Edge tempEdge = new Edge();
-        tempEdge.fromID = fromID;
-        tempEdge.toID = toID;
-        tempEdge.edgeLabel = Integer.toString(num_of_comments);
-        tempEdge.edgeClass = "sun";
-        tempEdge.flow = Integer.toString(flow); 
-        tempEdge.edgeIcon = "Bad";
-        return tempEdge;   
-    }
+   
     
     public static String getNodeIdFromCompanyName(String company_name)
     {
@@ -404,4 +387,23 @@ public class DBGraphingOperations {
         return tempNode;
     }
     
+    public static Edge createEdge(String fromID, String toID, int num_of_comments, int total_comments, String color)
+    {
+        int flow = 0;
+        int flow_factor = 1; 
+        
+        flow = ((int)(((double) num_of_comments/(double) total_comments)* (double) 100 * flow_factor));
+        if(flow < 10)
+            flow = 10;
+
+        Edge tempEdge = new Edge();
+        tempEdge.fromID = fromID;
+        tempEdge.toID = toID;
+        tempEdge.edgeLabel = Integer.toString(num_of_comments);
+        tempEdge.edgeClass = "sun";
+        tempEdge.flow = Integer.toString(flow); 
+        tempEdge.edgeIcon = "Bad";
+        tempEdge.color = color;
+        return tempEdge;   
+    }
 }

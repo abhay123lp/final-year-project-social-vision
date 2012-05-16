@@ -113,6 +113,10 @@ public class GraphMaker {
         tempString = covertFieldValueToXml("edgeIcon",aEdge.edgeIcon);
         edgeXml = edgeXml + tempString;
         
+        // edgeIcon
+        tempString = covertFieldValueToXml("color",aEdge.color);
+        edgeXml = edgeXml + tempString;
+        
         edgeXml = edgeXml + " /> \n \t";
         return edgeXml;
     }

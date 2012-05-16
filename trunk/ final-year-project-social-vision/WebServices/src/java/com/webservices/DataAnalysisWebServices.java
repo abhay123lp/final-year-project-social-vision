@@ -6,10 +6,7 @@ package com.webservices;
 
 import com.data.operations.DBGraphingOperations;
 import com.data.operations.DBTwitterOperations;
-import com.data.structures.CorrelationXYData;
-import com.data.structures.Edge;
-import com.data.structures.Graph;
-import com.data.structures.Node;
+import com.data.structures.*;
 import com.finance.statistics.FinancialDataAnalysis;
 import com.finance.statistics.RealTimeTwitterDataAnalysis;
 import com.finance.statistics.TopsyDataAnalysis;
@@ -103,12 +100,14 @@ public class DataAnalysisWebServices {
     }
     
     @WebMethod(operationName = "getXMLMapForCompany")
-    public String getXMLMapForCompany(@WebParam(name = "company_name") String company_name,@WebParam(name = "from_date") String from_date, @WebParam(name = "to_date") String to_date)
+    public XmlGraph getXMLMapForCompany(@WebParam(name = "company_name") String company_name,@WebParam(name = "from_date") String from_date, @WebParam(name = "to_date") String to_date)
             throws NamingException, SQLException{
         
-        Graph aGraph = DBGraphingOperations.makeGraphFromSingleCompanyHistorical(company_name, from_date, to_date);  
-        String graphXml = GraphMaker.generateGraphXML(aGraph);
-        return graphXml;
+        Graph aGraph = DBGraphingOperations.makeGraphFromSingleCompanyHistorical(company_name, from_date, to_date);    
+        XmlGraph xmlGrpah = new XmlGraph();
+        xmlGrpah.xmlGraphString = GraphMaker.generateGraphXML(aGraph);
+        xmlGrpah.primaryNodeString = DBGraphingOperations.getNodeIdFromCompanyName(company_name);
+        return xmlGrpah;
     }
     
     @WebMethod(operationName = "getCompleteXMLMap")

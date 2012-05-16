@@ -138,6 +138,40 @@ public class DBTopsyOperations {
             SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND sentiment = 'p' LIMIT "+limit+" ";
         else if(filter.equals("Negative"))
             SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND sentiment = 'n' LIMIT "+limit+" ";
+        else if(filter.equals("Intel"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND IntelMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("Samsung"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND SamsungMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("ImaginationTech"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND ImaginationTechMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("Imgtec"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND ImgtecMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("ARM"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND ARMMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("Google"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND GoogleMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("Apple"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND AppleMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("HTC"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND HTCMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("Sony"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND SonyMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("Blackberry"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND BlackberryMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("Nokia"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND NokiaMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("Motorola"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND MotorolaMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("LG"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND LGMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("Microsoft"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND MicrosoftMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("IBM"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND IBMMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("ARM Holdings"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND ARMHoldingsMention = 'y' LIMIT "+limit+" ";
+        else if(filter.equals("RIM"))
+            SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND RIMMention = 'y' LIMIT "+limit+" ";
         else 
             SQL = "SELECT * FROM topsy_social_data WHERE query = '"+query+"' AND date = '"+date+"' AND is_english = 'y' LIMIT "+limit+" ";
         
