@@ -1,0 +1,1 @@
+Mining the social web to see if there is a any correlation with the stock market and what people are tweeting.
